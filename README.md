@@ -1,5 +1,5 @@
 
-# Divoom Timebox Evo
+# Divoom Timebox Evo <!-- omit in toc -->
 This protocol documentation is for the Divoom Timebox Evo only.
 All the code examples are going to be in `javascript`.
 
@@ -9,6 +9,33 @@ This is inspired by:
 * https://github.com/mumpitzstuff/fhem-Divoom
 * https://github.com/MarcG046/timebox/blob/master/doc/protocol.md
 
+# TOC <!-- omit in toc -->
+
+- [Least Significant Byte first (LSB First)](#least-significant-byte-first-lsb-first)
+- [Sending Messages](#sending-messages)
+  - [Setting parameters of the Timebox](#setting-parameters-of-the-timebox)
+    - [Set Temperature and Weather](#set-temperature-and-weather)
+    - [Set Brightness](#set-brightness)
+  - [Commands](#commands)
+    - [Requesting Settings](#requesting-settings)
+  - [Channels](#channels)
+    - [Switching to a channel](#switching-to-a-channel)
+    - [Specific channel options](#specific-channel-options)
+      - [Time](#time)
+      - [Lightning](#lightning)
+      - [Cloud Channel](#cloud-channel)
+      - [VJ Effects](#vj-effects)
+      - [Visualization](#visualization)
+      - [Animation](#animation)
+  - [Animations & Images](#animations--images)
+    - [Animations](#animations)
+      - [Message Header](#message-header)
+      - [Frame format](#frame-format)
+    - [Images](#images)
+- [Receiving messages](#receiving-messages)
+  - [command 46 (WIP)](#command-46-wip)
+
+# Documentation <!-- omit in toc -->
 ## Least Significant Byte first (LSB First)
 Numbers (especially lenghts) are coded in LSB first
 To find the resulting number:
@@ -57,9 +84,9 @@ function int2hexlittle(value) {
 
 -----
 
-## Setting parameters of the Timebox
+### Setting parameters of the Timebox
 
-### Set Temperature and Weather
+#### Set Temperature and Weather
 
 Full String: `5F TT WW`
 
@@ -83,7 +110,7 @@ Full String: `5F TT WW`
 * `08`: Snow
 * `09`: Fog
 
-### Set brightness
+#### Set Brightness
 
 Full String: `74 BB`
 
@@ -95,18 +122,18 @@ brightness = Math.ceil(brightness / highestBrightnessValue * 100).toString(16).p
 
 ----
 
-## Commands
+### Commands
 
-### Requesting Settings
+#### Requesting Settings
 
 Full String: `46`<br />
 The box will answer with a message. See [here](#command-46) for how to interpret the answer.
 
 ----
 
-## Channels
+### Channels
 
-### Switching to a channel
+#### Switching to a channel
 
 `45`: Fixed to say we're switching to a channel<br />
 `XX`: Channel number, followed by...
@@ -120,9 +147,9 @@ The box will answer with a message. See [here](#command-46) for how to interpret
 
 There are optional parameters for each channel. If unspecified, it will just switch the channel.
 
-### Specific channel options
+#### Specific channel options
 
-#### Time
+##### Time
 
 Full String: `450001 TT XX WW EE CC RRGGBB`
 
@@ -141,16 +168,16 @@ Full String: `450001 TT XX WW EE CC RRGGBB`
 `CC`: Show Calendar: `00` to not display it, `01` to show it<br />
 `RRGGBB`: Color of the clock in Hex<br />
 
-#### Lightning
+##### Lightning
 
-TBD?
+Not yet reversed engineered
 
-#### Cloud Channel
+##### Cloud Channel
 
 Full String: `4502`<br />
 There is no option for this one.
 
-#### VJ Effects
+##### VJ Effects
 
 Full String: `4503 TT`
 
@@ -158,7 +185,7 @@ Full String: `4503 TT`
 `TT`: Type of VJ Effect from the image below<br />
 ![VJ Channels](images/VJ&#32;Channels.png)
 
-#### Visualization
+##### Visualization
 
 Full String: `4504 TT`
 
@@ -166,11 +193,11 @@ Full String: `4504 TT`
 `TT`: Type of Visualization from the image below<br />
 ![Visualization](images/Visualizers.png)
 
-#### Animation
+##### Animation
 
-TBD Upload animations?
+Upload animations not yet reversed engineered
 
-## Animations & Images
+### Animations & Images
 
 #### Animations
 
@@ -201,6 +228,10 @@ Then image<br />
 
 Split when data (exlucing the first 8 caracters) is = 400)
 
+
+#### Images
+
+TBD
 
 ----
 
