@@ -59,7 +59,7 @@ function int2hexlittle(value) {
 `01 LLLL PAYLOAD CRCR 02`
 
 * All the messages will start with `01` and end with `02`
-* `LLLL` is the length of the `PAYLOAD` string + the lenght of the CRC (`4`) in number of bytes (`FF` is one byte for exemple)
+* `LLLL` is the length of the `PAYLOAD` string + the lenght of the CRC (`4`) in number of bytes (`FF` is one byte for exemple) in LSB First
   ```js
   function getLength (payload) {
     // CRC is 4 characters
@@ -68,7 +68,7 @@ function int2hexlittle(value) {
     return int2hexlittle(length);
   }
   ```
-* `CRCR` is the CRC of the message including the length (`LLLL PAYLOAD`)
+* `CRCR` is the CRC of the message including the length (`LLLL PAYLOAD`) in LSB First
   ```js
   function getCRC(str) {
     let sum = 0;
