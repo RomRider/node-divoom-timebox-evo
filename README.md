@@ -29,7 +29,7 @@ function int2hexlittle(value) {
 
 ## Sending Messages
 
-`01 LLLL PAYLOAD CCCC 02`
+`01 LLLL PAYLOAD CRCR 02`
 
 * All the messages will start with `01` and end with `02`
 * `LLLL` is the length of the `PAYLOAD` string + the lenght of the CRC (`4`) in number of bytes (`FF` is one byte for exemple)
@@ -41,7 +41,7 @@ function int2hexlittle(value) {
     return int2hexlittle(length);
   }
   ```
-* `CCCC` is the CRC of the message including the length (`LLLL PAYLOAD`)
+* `CRCR` is the CRC of the message including the length (`LLLL PAYLOAD`)
   ```js
   function getCRC(str) {
     let sum = 0;
@@ -95,6 +95,15 @@ brightness = Math.ceil(brightness / highestBrightnessValue * 100).toString(16).p
 
 ----
 
+## Commands
+
+### Requesting Settings
+
+Full String: `46`<br />
+The box will answer with a message. See [here](#command-46) for how to interpret the answer.
+
+----
+
 ## Channels
 
 ### Switching to a channel
@@ -138,23 +147,28 @@ TBD?
 
 #### Cloud Channel
 
-TDB?
+Full String: `4502`<br />
+There is no option for this one.
 
 #### VJ Effects
 
 Full String: `4503 TT`
 
 `4503`: Fixed String<br />
-`TT`: Type of Visualization from the image below<br />
+`TT`: Type of VJ Effect from the image below<br />
 ![VJ Channels](images/VJ&#32;Channels.png)
 
 #### Visualization
 
-TDB
+Full String: `4504 TT`
+
+`4504`: Fixed String<br />
+`TT`: Type of Visualization from the image below<br />
+![Visualization](images/Visualizers.png)
 
 #### Animation
 
-TBD?
+TBD Upload animations?
 
 ## Animations & Images
 
@@ -186,3 +200,31 @@ Then color list<br />
 Then image<br />
 
 Split when data (exlucing the first 8 caracters) is = 400)
+
+
+----
+
+## Receiving messages
+
+The answer is always in this format:
+`01 LLLL 04 CC 55 PAYLOAD CRCR 02`
+
+`01`: Start of the message<br />
+`LLLL`: the length of the command which is between the first `01` and the last `02` in LSB First<br />
+`PAYLOAD`: The content of the message<br />
+`CRCR`: The CRC of the message<br />
+`02`: Fixed
+
+The `PAYLOAD` will usually be of this format:<br />
+`04`: Fixed AFAIK<br />
+`CC`: Command number<br />
+`55`: Fixed AFAIK<br />
+`CMDDATA`: The data associated to the command
+
+### command 46 (WIP)
+
+Example `PAYLOAD`: `044655 CC 00004a007f BB 7f010b BB 017f007f00010001000100`
+
+`044655`: Fixed String<br />
+`CC`: Channel currently displayed<br />
+`BB`: Brightness in Hexadecimal (from `0` to `100` dec - `0x0` to `0x64` hex). It seems the value is at 2 positions<br />
