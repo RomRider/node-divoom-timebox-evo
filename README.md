@@ -63,8 +63,8 @@ function int2hexlittle(value) {
 
 Full String: `5F TT WW`
 
-`5F`: Fixed String
-`TT`: Temperature encoded on 1 byte
+`5F`: Fixed String<br />
+`TT`: Temperature encoded on 1 byte<br />
 * If temperature is `0 >= Temp > 128`: `TT` is the value of the temperature in Hexadecimal
 * If temperature is `-128 < Temp < 0`: `TT` is 256 - temperature value in Hexadecimal
   ```js
@@ -87,8 +87,8 @@ Full String: `5F TT WW`
 
 Full String: `74 BB`
 
-`74`: Fixed String
-`BB`: Brightness in Hex (0 - 100 values only)
+`74`: Fixed String<br />
+`BB`: Brightness in Hex (0 - 100 values only)<br />
 ```js
 brightness = Math.ceil(brightness / highestBrightnessValue * 100).toString(16).padStart(2, "0")
 ```
@@ -99,7 +99,7 @@ brightness = Math.ceil(brightness / highestBrightnessValue * 100).toString(16).p
 
 ### Switching to a channel
 
-`45`: Fixed to say we're switching to a channel
+`45`: Fixed to say we're switching to a channel<br />
 `XX`: Channel number, followed by...
 
 * `00`: [Time](#time)
@@ -117,8 +117,7 @@ There are optional parameters for each channel. If unspecified, it will just swi
 
 Full String: `450001 TT XX WW EE CC RRGGBB`
 
-`450001`: Fixed AFAIK
-
+`450001`: Fixed AFAIK<br />
 `TT`: Type of clock
 * `00`: Full screen
 * `01`: Rainbow
@@ -127,11 +126,11 @@ Full String: `450001 TT XX WW EE CC RRGGBB`
 * `04`: Full Screen negative
 * `05`: Analog Round
 
-`XX`: Show Time: `00` to not display it, `01` to show it
-`WW`: Show Weather: `00` to not display it, `01` to show it
-`EE`: Show Temperature: `00` to not display it, `01` to show it
-`CC`: Show Calendar: `00` to not display it, `01` to show it
-`RRGGBB`: Color of the clock in Hex
+`XX`: Show Time: `00` to not display it, `01` to show it<br />
+`WW`: Show Weather: `00` to not display it, `01` to show it<br />
+`EE`: Show Temperature: `00` to not display it, `01` to show it<br />
+`CC`: Show Calendar: `00` to not display it, `01` to show it<br />
+`RRGGBB`: Color of the clock in Hex<br />
 
 #### Lightning
 
@@ -167,20 +166,19 @@ The payload is all the frames concatenated in one string and then split every 40
 
 ##### Message Header
 
-`49 XXXX XX`
-`49`: Fixed to say we're sending an animation
-`XXXX`: Sum of all sizes of all frames (after `AA`) (LSB: `byte 1 & 0xFF`, `(byte 2 >> 8) & 0xFF`)
-`XX`: Packet Number (each packet has a data payload of 400 top)
+`49 XXXX XX`<br />
+`49`: Fixed to say we're sending an animation<br />
+`XXXX`: Sum of all sizes of all frames (after `AA`) (LSB: `byte 1 & 0xFF`, `(byte 2 >> 8) & 0xFF`)<br />
+`XX`: Packet Number (each packet has a data payload of 400 top)<br />
 
 ##### Frame format
 
-`AA`: Frame Start
-`XXXX`: Frame length / 2 (byte 1 & 0xFF, (byte 2 >> 8) & 0xFF)
-TTTT = TT Time in ms (byte 1 & 0xFF, (byte 2 >> 8) & 0xFF)
-XX = Reset Palette 01 else 00 (Reset palette if number of colors since begining > 256)
-XX = Nb of Colors
-Then color list
-Then image
-
+`AA`: Frame Start<br />
+`XXXX`: Frame length / 2 (byte 1 & 0xFF, (byte 2 >> 8) & 0xFF)<br />
+TTTT = TT Time in ms (byte 1 & 0xFF, (byte 2 >> 8) & 0xFF)<br />
+XX = Reset Palette 01 else 00 (Reset palette if number of colors since begining > 256)<br />
+XX = Nb of Colors<br />
+Then color list<br />
+Then image<br />
 
 Split when data (exlucing the first 8 caracters) is = 400)
