@@ -9,7 +9,7 @@ This is inspired by:
 * https://github.com/mumpitzstuff/fhem-Divoom
 * https://github.com/MarcG046/timebox/blob/master/doc/protocol.md
 
-## Least Significant Byte first
+## Least Significant Byte first (LSB First)
 Numbers (especially lenghts) are coded in LSB first
 To find the resulting number:
 * `byte1 = value & 0xFF`
@@ -18,7 +18,7 @@ To find the resulting number:
 
 `toHexString()` would be a function to convert a decimal number (`from 0 to 255`) to its hexadecimal string equivalent.
 
-That would be the function for lenght in `js`
+That would be the function in `js`
 ```js
 function int2hexlittle(value) {
     const byte1 = (value & 0xFF).toString(16).padStart(2, "0");
@@ -142,7 +142,11 @@ TDB?
 
 #### VJ Effects
 
-TDB
+Full String: `4503 TT`
+
+`4503`: Fixed String<br />
+`TT`: Type of Visualization from the image below<br />
+![VJ Channels](images/VJ&#32;Channels.png)
 
 #### Visualization
 
