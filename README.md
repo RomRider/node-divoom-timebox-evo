@@ -289,6 +289,34 @@ The `PAYLOAD` will usually be of this format:<br />
 `55`: Fixed AFAIK<br />
 `CMDDATA`: The data associated to the command
 
+```js
+var hexlify = function(str) {
+    var result = '';
+    var padding = '00';
+    for (var i=0, l=str.length; i<l; i++) {
+      var digit = str.charCodeAt(i).toString(16);
+      var padded = (padding+digit).slice(-2);
+      result += padded;
+    }
+    return result;
+  };
+
+function divoomBufferToString(raw) {
+  return hexlify(raw.toString('ascii'));
+}
+
+function parseDivoomMessage(msg) {
+  let answer = {};
+  answer.ascii = msg;
+  answer.crc = msg.slice(-6, msg.length - 2);
+  answer.payloadLength = msg.slice(2, 6);
+  answer.command = msg.slice(8, 10);
+  answer.fixed = msg.slice(10, 12);
+  answer.cmddata = msg.slice(12, msg.length - 6);
+  return answer;
+}
+```
+
 ### command 46 (WIP)
 
 Example `PAYLOAD`: `044655 CC 00004a007f BB 7f010b BB 017f007f00010001000100`
