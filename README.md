@@ -35,6 +35,8 @@ This is inspired by:
     - [Images](#images)
 - [Receiving messages](#receiving-messages)
   - [command 46 (WIP)](#command-46-wip)
+  - [command 44 & 45](#command-44--45)
+  - [command 31 & 32](#command-31--32)
 
 # Documentation <!-- omit in toc -->
 ## Least Significant Byte first (LSB First)
@@ -292,5 +294,22 @@ The `PAYLOAD` will usually be of this format:<br />
 Example `PAYLOAD`: `044655 CC 00004a007f BB 7f010b BB 017f007f00010001000100`
 
 `044655`: Fixed String<br />
-`CC`: Channel currently displayed<br />
+`CC`: Channel currently displayed (See [here](#channels) for the code list)<br />
 `BB`: Brightness in Hexadecimal (from `0` to `100` dec - `0x0` to `0x64` hex). It seems the value is at 2 positions<br />
+
+### command 44 & 45
+
+Example `PAYLOAD`:
+* `044455 CC`
+* `044555 CC`
+
+`044455` or `044555`: Fixed String<br />
+`CC`: Channel currently displayed (See [here](#channels) for the code list)<br />
+
+### command 31 & 32
+Example `PAYLOAD`:
+* `043155 BB`
+* `043255 BB`
+
+`043155` or `043255`: Fixed String<br />
+`BB`: Brightness in Hexadecimal (from `0` to `100` dec - `0x0` to `0x64` hex)<br />
