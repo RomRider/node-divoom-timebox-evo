@@ -27,6 +27,7 @@ This is inspired by:
       - [VJ Effects](#vj-effects)
       - [Visualization](#visualization)
       - [Animation](#animation)
+      - [Scoreboard](#scoreboard)
   - [Animations & Images](#animations--images)
     - [Animations](#animations)
       - [Message Header](#message-header)
@@ -117,7 +118,12 @@ Full String: `74 BB`
 `74`: Fixed String<br />
 `BB`: Brightness in Hex (0 - 100 values only)<br />
 ```js
-brightness = Math.ceil(brightness / highestBrightnessValue * 100).toString(16).padStart(2, "0")
+function map(x, in_min, in_max, out_min, out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+function getBrightness(brightness, min_bri, max_bri) {
+  return Math.ceil(map(brightness, min_bri, max_bri, 0, 100)).toString(16).padStart(2, "0")
+}
 ```
 
 ----
@@ -144,6 +150,7 @@ The box will answer with a message. See [here](#command-46) for how to interpret
 * `03`: [VJ Effects](#vj-effects)
 * `04`: [Visualization](#visualization)
 * `05`: [Animation](#animation)
+* `06`: [Scoreboard](#scoreboard)
 
 There are optional parameters for each channel. If unspecified, it will just switch the channel.
 
@@ -170,7 +177,20 @@ Full String: `450001 TT XX WW EE CC RRGGBB`
 
 ##### Lightning
 
-Not yet reversed engineered
+Full String: `4502 RRGGBB BB TT PP 000000`
+
+`4502`: Fixed String<br />
+`RRGGBB`: Color encoded in Hexadecimal<br />
+`BB`: Brightness (0 - 100) in Hexadecimal<br />
+`TT`: Type of Lightning<br />
+* `00`: Plain color
+* `01`: Love
+* `02`: Plants
+* `03`: No Mosquitto
+* `04`: Sleeping
+
+`PP`: Power should usually be `01` (`00` would turn off the display)<br />
+`000000`: Fixed String
 
 ##### Cloud Channel
 
@@ -196,6 +216,21 @@ Full String: `4504 TT`
 ##### Animation
 
 Upload animations not yet reversed engineered
+
+##### Scoreboard
+
+Full String: `450600 RRRR BBBB`
+
+`450600`: Fixed AFAIK<br />
+`RRRR`: Score for Red player<br />
+`BBBB`: Score fore Blue player<br />
+
+The score format is from 0 to 999 encoded in Hexadecimal LSB First.
+```js
+function getScoreBoardEncoded(red, blue) {
+  return int2hexlittle(Math.min(999, red))+int2hexlittle(Math.min(999, blue))
+}
+```
 
 ### Animations & Images
 
