@@ -1,0 +1,47 @@
+{
+  "name": "node-divoom-timebox-evo",
+  "version": "0.0.1",
+  "description": "A module to generate and decode messages from a Divoom Timebox Evo",
+  "main": "dist/divoom.js",
+  "source": "src/divoom.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha -r ts-node/register tests/**/*.spec.ts",
+    "testWithCoverage": "nyc -r lcov -e .ts -x \"tests/**/*.spec.ts\" mocha -r ts-node/register tests/**/*.spec.ts && nyc report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RomRider/divoom-timebox-evo.git"
+  },
+  "keywords": [
+    "divoom",
+    "npm",
+    "timebox"
+  ],
+  "author": "Jérôme Wiedemann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RomRider/divoom-timebox-evo/issues"
+  },
+  "homepage": "https://github.com/RomRider/divoom-timebox-evo#readme",
+  "devDependencies": {
+    "@types/chai": "^4.2.0",
+    "@types/mocha": "^5.2.7",
+    "@types/rewire": "^2.5.28",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "rewire": "^4.0.1",
+    "ts-node": "^8.3.0",
+    "typedoc": "^0.15.0",
+    "typescript": "^3.6.2"
+  },
+  "dependencies": {
+    "@ctrl/tinycolor": "^2.5.3",
+    "@types/node": "^12.7.3",
+    "file-type": "^12.2.0",
+    "gifwrap": "^0.9.2",
+    "jimp": "^0.6.4",
+    "read-chunk": "^3.2.0"
+  }
+}

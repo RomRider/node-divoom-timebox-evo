@@ -1,5 +1,7 @@
-*
-!.gitignore
-!README.md
-!images
-!images/**
+.nyc_output
+.rts2_cache_cjs
+coverage
+dist
+node_modules
+Examples.md
+docs

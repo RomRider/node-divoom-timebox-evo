@@ -78,8 +78,6 @@ function int2hexlittle(value) {
     for (i = 0, l = str.length; i < l; i += 2) {
       sum += parseInt(str.substr(i, 2), 16)
     }
-    const byte1 = (sum & 0xFF).toString(16).padStart(2, "0");
-    const byte2 = ((sum >> 8) & 0xFF).toString(16).padStart(2, "0");
     return int2hexlittle(sum);
   }
   ```
@@ -101,7 +99,7 @@ Full String: `5F TT WW`
   if (temp >= 0) {
       encodedTemp = temp.toString(16).padStart(2, "0");
   } else {
-      let value = 256 - temp
+      let value = 256 + temp
       encodedTemp = value.toString(16).padStart(2, "0");
   }
   ```
@@ -179,9 +177,9 @@ Full String: `450001 TT XX WW EE CC RRGGBB`
 
 ##### Lightning
 
-Full String: `4502 RRGGBB BB TT PP 000000`
+Full String: `4501 RRGGBB BB TT PP 000000`
 
-`4502`: Fixed String<br />
+`4501`: Fixed String<br />
 `RRGGBB`: Color encoded in Hexadecimal<br />
 `BB`: Brightness (0 - 100) in Hexadecimal<br />
 `TT`: Type of Lightning<br />
