@@ -3,9 +3,7 @@ import { int2hexlittle, unhexlify } from "./utils";
 import { TinyColor } from "@ctrl/tinycolor";
 import fileType from "file-type";
 import Jimp from 'jimp';
-import readChunk from 'read-chunk';
-import { isBuffer } from "util";
-import { ftruncate } from "fs";
+import fs from "fs";
 
 export class DivoomTimeBoxEvoProtocol {
   private PREFIX = "01";
@@ -273,27 +271,25 @@ export class DivoomTimeBoxEvoProtocol {
 
 
   /**
-   * Generates the appropriate message
-   * @param input a path to an image or a Buffer representing an image file;
+   * Generates the appropriate message to display an animation or an image on the Timebox
+   * @param input a path to an image or a Buffer representing an image file
    * @param cb the callback function called when the image has been processed
    */
   public displayAnimation(input: Buffer | string, cb?: Function) {
-    let ft: fileType.FileTypeResult | undefined = undefined;
-    if (typeof input === 'string') {
-      const buffer = readChunk.sync(input, 0, fileType.minimumBytes);
-      ft = fileType(buffer);
-    } else {
-      ft = fileType(input);
-    }
+    let buffer: Buffer = fs.readFileSync(input);
+    let ft: fileType.FileTypeResult | undefined = fileType(buffer);
+
+    ft = fileType(buffer);
+
     if (ft) {
       switch (ft.mime) {
         case 'image/gif':
-          this._displayAnimationFromGIF(input, cb);
+          this._displayAnimationFromGIF(buffer, cb);
           break;
         case 'image/jpeg':
         case 'image/png':
         case 'image/bmp':
-          this._displayImage(input, cb);
+          this._displayImage(buffer, cb);
           break;
         default:
           throw new Error('file type not supported')
@@ -302,15 +298,15 @@ export class DivoomTimeBoxEvoProtocol {
       throw new Error('file type unkown')
     }
   }
-  private _displayImage(input: string | Buffer, cb?: Function) {
-    let promise = undefined;
-    const PACKAGE_PREFIX = '44000A0A04AA';
 
-    if (Buffer.isBuffer(input)) {
-      promise = Jimp.read(input)
-    } else {
-      promise = Jimp.read(input);
-    }
+  /**
+   * This function generates the message when the a static image is used
+   * @param input a path to an image or a Buffer representing an image file
+   * @param cb the callback function called when the image has been processed
+   */
+  private _displayImage(input: Buffer, cb?: Function) {
+    let promise = Jimp.read(input);
+    const PACKAGE_PREFIX = '44000A0A04AA';
 
     promise.then(image => {
       let resized = image.resize(16, 16, Jimp.RESIZE_NEAREST_NEIGHBOR);

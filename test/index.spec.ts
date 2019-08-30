@@ -1,6 +1,6 @@
 import rewire from "rewire";
 import { expect } from 'chai';
-import { DivoomTimeBoxEvoProtocol } from '../src/divoom';
+import { DivoomTimeBoxEvoProtocol } from '../src/index';
 import { WeatherType } from '../src/types';
 import 'mocha';
 
@@ -9,7 +9,7 @@ describe('DivoomTimeBoxProtocol class', () => {
     return msg === undefined ? undefined : msg.slice(6, -6);
   }
   describe('class private properties', () => {
-    const Divoom = rewire('../src/divoom.ts');
+    const Divoom = rewire('../src/index.ts');
     const DivoomTimeBoxEvoProtocol = Divoom.__get__("DivoomTimeBoxEvoProtocol");
 
     const d = new DivoomTimeBoxEvoProtocol;
@@ -248,7 +248,7 @@ describe('DivoomTimeBoxProtocol class', () => {
         "01ba0144000a0a04aab301000000445d5e65000000ff00ffe21effe11fffc33cffc43dffa65bff8879ffa65aff8779ff6a96ffba46ffa55bff6996ff4cb4ff2ed1ffff01fff50bffd828ffb947ff9b64ff6a97ff10efff05fffb23ffdd41ffbf60ffa19c65ff7e83ff2ed2ff0efff15fffa12425289b65ff7e82ff5fa0ff11f0ff2dffd34bffb560a0ff42bfff24dcff10f0ff0ffff22cffd469ff9712121442beff07faff2dffd46aff9788ff7806faff19ffe737ffc987ff78a5ff5b06f9ff88ff79a6ff5bc4ff3ce2ff1f04fffbe2ff1effff0118e7ffffff000000000000000201000000000000000000000004048300000000000000000000000408850000000000000000000008100c07440000000000000000000818128a450000000000814020106034148e07241008040281886442a9042c8fc00593d16c0280c084c2e9041e9ec027a30185000040403422053ca580e9040a0000000020804aa956acd6c9f50200000000200053c558b2d38cf6020000000020a0aad96ea7192e17000000004040a5b3dd02811dafe70b00000040e0670b0400804000180c000080803010000000000020101806008040000000000000000000080400a8af02"
       ]
       before((done) => {
-        d.displayAnimation('./tests/inputs/Star CMY.png', done);
+        d.displayAnimation('./test/inputs/Star CMY.png', done);
       })
       it('should issue the correct message', () => {
         expect(JSON.stringify(d.getDivoomMessageArray()).toLowerCase())
@@ -263,7 +263,7 @@ describe('DivoomTimeBoxProtocol class', () => {
         "6f2f905f2fa04f2fb03f2fc02f2fd01f2fe00f2ff0ff1f00ef1f10df1f20cf1f30bf1f40af1f509f1f608f1f707f1f806f1f905f1fa04f1fb03f1fc02f1fd01f1fe00f1ff0ff0f00ef0f10df0f20cf0f30bf0f40af0f509f0f608f0f707f0f806f0f905f0fa04f0fb03f0fc02f0fd01f0fe00f0ff0000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeffa30602"
       ]
       before((done) => {
-        d.displayAnimation('./tests/inputs/rainbow.png', done);
+        d.displayAnimation('./test/inputs/rainbow.png', done);
       })
       it('should issue the correct message', () => {
         expect(JSON.stringify(d.getDivoomMessageArray()).toLowerCase())
@@ -271,14 +271,15 @@ describe('DivoomTimeBoxProtocol class', () => {
       })
     })
 
-    describe('not sending an image', () => {
+    describe('error cases', () => {
       const d = new DivoomTimeBoxEvoProtocol;
-      before((done) => {
-        d.displayAnimation('./tests/inputs/rainbow.png', done);
+      it('should fail when not sending an image', () => {
+        expect(() => d.displayAnimation('./test/inputs/notanimage.png')).to.throw(Error);
       })
-      it('should fail', () => {
-        expect(() => d.displayAnimation('./tests/inputs/notanimage.png')).to.throw(Error);
+      it('should fail if the file does not exist', () => {
+        expect(() => d.displayAnimation('./test/inputs/doesnotexist.png')).to.throw(Error);
       })
+
     })
 
 

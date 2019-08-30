@@ -1,13 +1,3 @@
-export enum ChannelType {
-  Time,
-  Lightning,
-  Cloud,
-  VJEffects,
-  Visualization,
-  Animation,
-  Scoreboard
-}
-
 export enum TimeDisplayType {
   FullScreen,
   Rainbow,

@@ -18,7 +18,10 @@
       ],
       "console": "integratedTerminal",
       "sourceMaps": true,
-      "internalConsoleOptions": "neverOpen"
+      "internalConsoleOptions": "neverOpen",
+      "env": {
+        "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}"
+      }
     }
   ]
 }

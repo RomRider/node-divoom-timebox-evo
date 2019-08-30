@@ -2,12 +2,17 @@
   "name": "node-divoom-timebox-evo",
   "version": "0.0.1",
   "description": "A module to generate and decode messages from a Divoom Timebox Evo",
-  "main": "dist/divoom.js",
-  "source": "src/divoom.ts",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "test": "mocha -r ts-node/register tests/**/*.spec.ts",
-    "testWithCoverage": "nyc -r lcov -e .ts -x \"tests/**/*.spec.ts\" mocha -r ts-node/register tests/**/*.spec.ts && nyc report"
+    "build": "rollup -c",
+    "watch": "rollup -cw",
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.spec.ts",
+    "testWithCoverage": "nyc -r lcov -e .ts -x \"test/**/*.spec.ts\" mocha -r ts-node/register test/**/*.spec.ts && nyc report"
   },
   "repository": {
     "type": "git",
@@ -16,6 +21,8 @@
   "keywords": [
     "divoom",
     "npm",
+    "node",
+    "module",
     "timebox"
   ],
   "author": "Jérôme Wiedemann",
@@ -32,6 +39,8 @@
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "rewire": "^4.0.1",
+    "rollup": "^1.20.3",
+    "rollup-plugin-typescript2": "^0.24.0",
     "ts-node": "^8.3.0",
     "typedoc": "^0.15.0",
     "typescript": "^3.6.2"
@@ -41,7 +50,6 @@
     "@types/node": "^12.7.3",
     "file-type": "^12.2.0",
     "gifwrap": "^0.9.2",
-    "jimp": "^0.6.4",
-    "read-chunk": "^3.2.0"
+    "jimp": "^0.6.4"
   }
 }
