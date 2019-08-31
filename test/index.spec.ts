@@ -206,6 +206,10 @@ describe('DivoomTimeBoxProtocol class', () => {
       d.setTempAndWeatherPackage(-42, WeatherType.Fog);
       expect(strip(d.getDivoomMessageString())).to.equal("5fd609")
     })
+    it('should handle floats in temperature properly', () => {
+      d.setTempAndWeatherPackage(42.3, WeatherType.Fog);
+      expect(strip(d.getDivoomMessageString())).to.equal("5f2a09")
+    })
     it('should fail if temperature is > 128', () => {
       expect(() => d.setTempAndWeatherPackage(129, WeatherType.Fog)).to.throw(Error)
     })

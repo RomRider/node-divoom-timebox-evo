@@ -87,7 +87,11 @@ export class DivoomTimeBoxEvoProtocol {
   }
 
   private _number2HexString(int: number): string {
-    return int.toString(16).padStart(2, "0");
+    if (int > 255 || int < 0) {
+      throw new Error('_number2HexString works only with number between 0 and 255')
+    }
+
+    return Math.round(int).toString(16).padStart(2, "0");
   }
 
   private _color2HexString(color: TinyColor): string {
