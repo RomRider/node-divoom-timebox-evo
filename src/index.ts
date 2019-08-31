@@ -301,7 +301,12 @@ export class DivoomTimeBoxEvoProtocol {
    */
   public displayAnimation(input: Buffer | string): Promise<DivoomTimeBoxEvoProtocol> {
     this._fullMessage = [];
-    let buffer: Buffer = fs.readFileSync(input);
+    let buffer: Buffer;
+    if (!Buffer.isBuffer(input)) {
+      buffer = fs.readFileSync(input);
+    } else {
+      buffer = input;
+    }
     let ft: fileType.FileTypeResult | undefined = fileType(buffer);
 
     ft = fileType(buffer);
