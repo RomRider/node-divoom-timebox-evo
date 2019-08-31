@@ -91,10 +91,13 @@ btSerial.findSerialPortChannel(TIMEBOX_ADDRESS, <span class="hljs-function"><spa
 
 <span class="hljs-keyword">var</span> d = <span class="hljs-keyword">new</span> Divoom.DivoomTimeBoxEvoProtocol;
 d.displayAnimation(<span class="hljs-string">'animation.gif'</span>).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
-  btSerial.write(result.getDivoomBinaryBuffer(),
-    <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, bytesWritten</span>) </span>{
-      <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.log(err);
-    });
+  result.getDivoomBinaryBuffer().forEach(<span class="hljs-function"><span class="hljs-params">elt</span> =&gt;</span> {
+    btSerial.write(elt,
+      <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, bytesWritten</span>) </span>{
+        <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.log(err);
+      }
+    );
+  })
 });
 </code></pre>
 				<a href="#protocol-documentation" id="protocol-documentation" style="color: inherit; text-decoration: none;">

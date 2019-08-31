@@ -27,10 +27,13 @@ btSerial.findSerialPortChannel(TIMEBOX_ADDRESS, function(channel) {
 
 var d = new Divoom.DivoomTimeBoxEvoProtocol;
 d.displayAnimation('animation.gif').then(result => {
-  btSerial.write(result.getDivoomBinaryBuffer(),
-    function(err, bytesWritten) {
-      if (err) console.log(err);
-    });
+  result.getDivoomBinaryBuffer().forEach(elt => {
+    btSerial.write(elt,
+      function(err, bytesWritten) {
+        if (err) console.log(err);
+      }
+    );
+  })
 });
 
 ```
