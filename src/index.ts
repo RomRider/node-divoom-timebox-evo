@@ -297,7 +297,7 @@ export class DivoomTimeBoxEvoProtocol {
   /**
    * Generates the appropriate message to display an animation or an image on the Timebox
    * @param input a path to an image or a Buffer representing an image file
-   * @param cb the callback function called when the image has been processed
+   * @returns A promise which resolves when the processing is done
    */
   public displayAnimation(input: Buffer | string): Promise<DivoomTimeBoxEvoProtocol> {
     this._fullMessage = [];
@@ -310,12 +310,10 @@ export class DivoomTimeBoxEvoProtocol {
       switch (ft.mime) {
         case 'image/gif':
           return this._displayAnimationFromGIF(buffer);
-          break;
         case 'image/jpeg':
         case 'image/png':
         case 'image/bmp':
           return this._displayImage(buffer);
-          break;
         default:
           throw new Error('file type not supported')
       }
@@ -326,8 +324,8 @@ export class DivoomTimeBoxEvoProtocol {
 
   /**
    * This function generates the message when the a static image is used
-   * @param input a path to an image or a Buffer representing an image file
-   * @param cb the callback function called when the image has been processed
+   * @param input a Buffer representing an image file
+   * @returns A promise which resolves when the processing is done
    */
   private _displayImage(input: Buffer): Promise<DivoomTimeBoxEvoProtocol> {
     const PACKAGE_PREFIX = '44000A0A04AA';
@@ -391,12 +389,15 @@ export class DivoomTimeBoxEvoProtocol {
       })
         .catch(err => {
           reject(err);
-          throw err;
         })
     })
   }
 
-
+  /**
+   * This function generates the message when the a static image is used
+   * @param input Buffer representing an image file
+   * @returns A promise which resolves when the processing is done
+   */
   private _displayAnimationFromGIF(input: Buffer): Promise<DivoomTimeBoxEvoProtocol> {
     const PACKAGE_PREFIX = '49';
     return new Promise<DivoomTimeBoxEvoProtocol>((resolve, reject) => {
@@ -502,14 +503,7 @@ export class DivoomTimeBoxEvoProtocol {
       })
         .catch(err => {
           reject(err);
-          throw err;
         })
     });
   }
-}
-
-
-
-export class DivoomAnswer {
-
 }

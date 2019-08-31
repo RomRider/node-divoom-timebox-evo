@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "pre-commit": "npm run test && npm run build && npm run doc && git add .",
+    "prepack": "npm run test && npm run build",
     "doc": "typedoc",
     "build": "rollup -c",
     "watch": "rollup -cw",
