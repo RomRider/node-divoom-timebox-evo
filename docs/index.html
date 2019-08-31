@@ -76,18 +76,18 @@
 					<h1>Usage (TBD)</h1>
 				</a>
 				<ul>
-					<li>javascript<pre><code class="language-js"><span class="hljs-keyword">var</span> Divoom = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-divoom-timebox-evo'</span>);
-</code></pre>
+					<li><p>javascript</p>
+						<pre><code class="language-js"><span class="hljs-keyword">var</span> Divoom = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-divoom-timebox-evo'</span>);
+
+<span class="hljs-keyword">var</span> d = <span class="hljs-keyword">new</span> Divoom.DivoomTimeBoxEvoProtocol;
+d.displayAnimation(<span class="hljs-string">'file.png'</span>).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(result.getDivoomBinaryBuffer());
+  <span class="hljs-comment">// send toSend to the Divoom</span>
+  <span class="hljs-comment">// use https://github.com/eelcocramer/node-bluetooth-serial-port</span>
+});</code></pre>
 					</li>
 				</ul>
-				<p>var d = new Divoom.DivoomTimeBoxEvoProtocol;
-					d.displayAnimation(&#39;/Users/jwiedemann/workspace/perso/divoom-reverse-engineering/test/inputs/dino.gif&#39;).then(result =&gt; {
-					console.log(result.getDivoomBinaryBuffer());
-					// send toSend to the Divoom
-					// use <a href="https://github.com/eelcocramer/node-bluetooth-serial-port">https://github.com/eelcocramer/node-bluetooth-serial-port</a>
-				});</p>
-				<pre><code>
-See the complete documentation [<span class="hljs-string">here</span>](<span class="hljs-link">https://romrider.github.io/divoom-timebox-evo/</span>)</code></pre>
+				<p>See the complete documentation <a href="https://romrider.github.io/divoom-timebox-evo/">here</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

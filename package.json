@@ -43,7 +43,7 @@
     "chai": "^4.2.0",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
-    "precommit": "^1.2.2",
+    "pre-commit": "^1.2.2",
     "rewire": "^4.0.1",
     "rollup": "^1.20.3",
     "rollup-plugin-typescript2": "^0.24.0",
