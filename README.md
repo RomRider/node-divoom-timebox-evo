@@ -22,4 +22,4 @@ npm i node-divoom-timebox-evo
   });
   ```
 
-See the complete documentation [here](https://romrider.github.io/divoom-timebox-evo/)
+See the complete documentation [here](https://romrider.github.io/divoom-timebox-evo/docs/)
