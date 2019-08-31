@@ -247,12 +247,11 @@ describe('DivoomTimeBoxProtocol class', () => {
       let shouldBe = [
         "01ba0144000a0a04aab301000000445d5e65000000ff00ffe21effe11fffc33cffc43dffa65bff8879ffa65aff8779ff6a96ffba46ffa55bff6996ff4cb4ff2ed1ffff01fff50bffd828ffb947ff9b64ff6a97ff10efff05fffb23ffdd41ffbf60ffa19c65ff7e83ff2ed2ff0efff15fffa12425289b65ff7e82ff5fa0ff11f0ff2dffd34bffb560a0ff42bfff24dcff10f0ff0ffff22cffd469ff9712121442beff07faff2dffd46aff9788ff7806faff19ffe737ffc987ff78a5ff5b06f9ff88ff79a6ff5bc4ff3ce2ff1f04fffbe2ff1effff0118e7ffffff000000000000000201000000000000000000000004048300000000000000000000000408850000000000000000000008100c07440000000000000000000818128a450000000000814020106034148e07241008040281886442a9042c8fc00593d16c0280c084c2e9041e9ec027a30185000040403422053ca580e9040a0000000020804aa956acd6c9f50200000000200053c558b2d38cf6020000000020a0aad96ea7192e17000000004040a5b3dd02811dafe70b00000040e0670b0400804000180c000080803010000000000020101806008040000000000000000000080400a8af02"
       ]
-      before((done) => {
-        d.displayAnimation('./test/inputs/Star CMY.png', done);
-      })
       it('should issue the correct message', () => {
-        expect(JSON.stringify(d.getDivoomMessageArray()).toLowerCase())
-          .to.equal(JSON.stringify(shouldBe).toLowerCase());
+        return d.displayAnimation('./test/inputs/Star CMY.png').then((b) => {
+          expect(JSON.stringify(b.getDivoomMessageArray()).toLowerCase())
+            .to.equal(JSON.stringify(shouldBe).toLowerCase());
+        })
       })
     })
 
@@ -262,12 +261,11 @@ describe('DivoomTimeBoxProtocol class', () => {
         "010e0444000a0a04aa070400000000ffff00efff10dfff20cfff30bfff40afff509fff608fff707fff806fff905fffa04fffb03fffc02fffd01fffe00ffff0ffef00efef10dfef20cfef30bfef40afef509fef608fef707fef806fef905fefa04fefb03fefc02fefd01fefe00feff0ffdf00efdf10dfdf20cfdf30bfdf40afdf509fdf608fdf707fdf806fdf905fdfa04fdfb03fdfc02fdfd01fdfe00fdff0ffcf00efcf10dfcf20cfcf30bfcf40afcf509fcf608fcf707fcf806fcf905fcfa04fcfb03fcfc02fcfd01fcfe00fcff0ffbf00efbf10dfbf20cfbf30bfbf40afbf509fbf608fbf707fbf806fbf905fbfa04fbfb03fbfc02fbfd01fbfe00fbff0ffaf00efaf10dfaf20cfaf30bfaf40afaf509faf608faf707faf806faf905fafa04fafb03fafc02fafd01fafe00faff0ff9f00ef9f10df9f20cf9f30bf9f40af9f509f9f608f9f707f9f806f9f905f9fa04f9fb03f9fc02f9fd01f9fe00f9ff0ff8f00ef8f10df8f20cf8f30bf8f40af8f509f8f608f8f707f8f806f8f905f8fa04f8fb03f8fc02f8fd01f8fe00f8ff0ff7f00ef7f10df7f20cf7f30bf7f40af7f509f7f608f7f707f7f806f7f905f7fa04f7fb03f7fc02f7fd01f7fe00f7ff0ff6f00ef6f10df6f20cf6f30bf6f40af6f509f6f608f6f707f6f806f6f905f6fa04f6fb03f6fc02f6fd01f6fe00f6ff0ff5f00ef5f10df5f20cf5f30bf5f40af5f509f5f608f5f707f5f806f5f905f5fa04f5fb03f5fc02f5fd01f5fe00f5ff0ff4f00ef4f10df4f20cf4f30bf4f40af4f509f4f608f4f707f4f806f4f905f4fa04f4fb03f4fc02f4fd01f4fe00f4ff0ff3f00ef3f10df3f20cf3f30bf3f40af3f509f3f608f3f707f3f806f3f905f3fa04f3fb03f3fc02f3fd01f3fe00f3ff0ff2f00ef2f10df2f20cf2f30bf2f40af2f509f2f608f2f707f2f80",
         "6f2f905f2fa04f2fb03f2fc02f2fd01f2fe00f2ff0ff1f00ef1f10df1f20cf1f30bf1f40af1f509f1f608f1f707f1f806f1f905f1fa04f1fb03f1fc02f1fd01f1fe00f1ff0ff0f00ef0f10df0f20cf0f30bf0f40af0f509f0f608f0f707f0f806f0f905f0fa04f0fb03f0fc02f0fd01f0fe00f0ff0000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeffa30602"
       ]
-      before((done) => {
-        d.displayAnimation('./test/inputs/rainbow.png', done);
-      })
       it('should issue the correct message', () => {
-        expect(JSON.stringify(d.getDivoomMessageArray()).toLowerCase())
-          .to.equal(JSON.stringify(shouldBe).toLowerCase());
+        return d.displayAnimation('./test/inputs/rainbow.png').then((b) => {
+          expect(JSON.stringify(b.getDivoomMessageArray()).toLowerCase())
+            .to.equal(JSON.stringify(shouldBe).toLowerCase());
+        })
       })
     })
 
@@ -404,12 +402,11 @@ describe('DivoomTimeBoxProtocol class', () => {
         "01ce0049555a72ffc936ffa958ff728eff1ce4ff07faff1affe53cffc451ffafdf21ff8878ff52aeff3cc3ff05fffb1bffe55dffa3a957ff6798ff32ceff26ffda3bffc45dffa46898ff11eeff47ffb947b8ff10fff026ffdb46ffb968ff997dff8327d8ff31ffcf47ffba67ff9888ff789eff6227d9ff07f9ff88ff77a8ff57beff41dfff21ffff0018e7ff00000000000401000000000000000000100843000000000000000000100c440000000000000000405010c611000000000000004040184812000000004110048162200b8e5f02",
         "01830049555a73d30441100481e33c5014484c30519575054080295116685bc07596170000107c19188453208e640000000004a5169a9c787a0100000000046868a6eacab6010000000004ae99be702ccf0100000010d075fa06817de37900000010d45d10004010e47a000040b007010000000004811e00401000000000000000401000082202"
       ]
-      before((done) => {
-        d.displayAnimation('./test/inputs/star.gif', done);
-      })
       it('should issue the correct message', () => {
-        expect(JSON.stringify(d.getDivoomMessageArray()).toLowerCase())
-          .to.equal(JSON.stringify(shouldBe).toLowerCase());
+        return d.displayAnimation('./test/inputs/star.gif').then(b => {
+          expect(JSON.stringify(b.getDivoomMessageArray()).toLowerCase())
+            .to.equal(JSON.stringify(shouldBe).toLowerCase());
+        })
       })
     })
 
@@ -424,12 +421,11 @@ describe('DivoomTimeBoxProtocol class', () => {
         "01ce00492805058abe91233f2390c69825422533583b426e49497d51e4e4e4589a671011212222222211313354767777563431336478777768343133647877776834313364797777693431336477777767343133435476564433313343667767463331444347774747333164444977474933316447647767443331547777667647333143456655654733313344564454463331334345334345333133433433433433aaa5005000000a84b68b8abe91233f2390c69825422533583b426e49497d51e4e4e4589a671011112222222212194202",
         "017e0049280506313343657777674531334386777787463133438677778746313343967777974631334376777777463133437677564434313343767767463331444347774747333164444977474933316447647767443331547777667647333143456655654733313344564454463331334345334345333133433433433433fb2502"
       ]
-      before((done) => {
-        d.displayAnimation('./test/inputs/dino.gif', done);
-      })
       it('should issue the correct message', () => {
-        expect(JSON.stringify(d.getDivoomMessageArray()).toLowerCase())
-          .to.equal(JSON.stringify(shouldBe).toLowerCase());
+        return d.displayAnimation('./test/inputs/dino.gif').then(b => {
+          expect(JSON.stringify(b.getDivoomMessageArray()).toLowerCase())
+            .to.equal(JSON.stringify(shouldBe).toLowerCase());
+        })
       })
     })
 

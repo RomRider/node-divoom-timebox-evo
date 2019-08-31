@@ -5,6 +5,7 @@ import fileType from "file-type";
 import Jimp from 'jimp';
 import gifWrap from 'gifwrap';
 import fs from "fs";
+import { resolve } from "dns";
 
 export class DivoomTimeBoxEvoProtocol {
   private PREFIX = "01";
@@ -298,7 +299,8 @@ export class DivoomTimeBoxEvoProtocol {
    * @param input a path to an image or a Buffer representing an image file
    * @param cb the callback function called when the image has been processed
    */
-  public displayAnimation(input: Buffer | string, cb?: Function) {
+  public displayAnimation(input: Buffer | string): Promise<DivoomTimeBoxEvoProtocol> {
+    this._fullMessage = [];
     let buffer: Buffer = fs.readFileSync(input);
     let ft: fileType.FileTypeResult | undefined = fileType(buffer);
 
@@ -307,12 +309,12 @@ export class DivoomTimeBoxEvoProtocol {
     if (ft) {
       switch (ft.mime) {
         case 'image/gif':
-          this._displayAnimationFromGIF(buffer, cb);
+          return this._displayAnimationFromGIF(buffer);
           break;
         case 'image/jpeg':
         case 'image/png':
         case 'image/bmp':
-          this._displayImage(buffer, cb);
+          return this._displayImage(buffer);
           break;
         default:
           throw new Error('file type not supported')
@@ -327,175 +329,183 @@ export class DivoomTimeBoxEvoProtocol {
    * @param input a path to an image or a Buffer representing an image file
    * @param cb the callback function called when the image has been processed
    */
-  private _displayImage(input: Buffer, cb?: Function) {
-    let promise = Jimp.read(input);
+  private _displayImage(input: Buffer): Promise<DivoomTimeBoxEvoProtocol> {
     const PACKAGE_PREFIX = '44000A0A04AA';
-
-    promise.then(image => {
-      let resized = image.resize(16, 16, Jimp.RESIZE_NEAREST_NEIGHBOR);
-      let colorsHash: number[] = [];
-      let colorArray: number[] = [];
-      let counter = 0;
-      let pixelArray: number[] = [];
-
-      resized.scan(0, 0, resized.bitmap.width, resized.bitmap.height, function (x, y, idx) {
-        let red = this.bitmap.data[idx + 0];
-        let green = this.bitmap.data[idx + 1];
-        let blue = this.bitmap.data[idx + 2];
-        // let alpha = this.bitmap.data[idx + 3];
-        let color = (red << 16) + (green << 8) + blue;
-
-        if (!colorsHash[color] && colorsHash[color] !== 0) {
-          colorsHash[color] = counter;
-          colorArray.push(color);
-          pixelArray[x + 16 * y] = counter;
-          counter++;
-        } else {
-          pixelArray[x + 16 * y] = colorsHash[color];
-        }
-      })
-      let nbColors = (counter % 256).toString(16).padStart(2, "0");
-      var colorString = '';
-      colorArray.forEach((color) => {
-        colorString += color.toString(16).padStart(6, '0')
-      })
-      let nbBitsForAPixel = Math.log(counter) / Math.log(2);
-      let bits = Number.isInteger(nbBitsForAPixel)
-        ? nbBitsForAPixel
-        : (Math.trunc(nbBitsForAPixel) + 1);
-      if (bits === 0) bits = 1;
-      let pixelString = '';
-      pixelArray.forEach((pixel) => {
-        pixelString += (pixel >>> 0).toString(2).padStart(8, '0').split("").reverse().join("").substring(0, bits)
-      })
-
-      let pixBinArray = pixelString.match(/.{1,8}/g);
-      let pixelStringFinal = '';
-      pixBinArray!.forEach((pixel) => {
-        pixelStringFinal += parseInt(pixel.split("").reverse().join(""), 2).toString(16).padStart(2, '0');
-      })
-
-
-      let length = int2hexlittle(('AA0000000000' + nbColors + colorString + pixelStringFinal).length / 2);
-      this._setMessage(
-        PACKAGE_PREFIX
-        + length
-        + '000000'
-        + nbColors
-        + colorString
-        + pixelStringFinal
-      )
-      if (cb) cb();
-    })
-      .catch(err => {
-        throw err;
-      })
-  }
-
-
-  private _displayAnimationFromGIF(input: Buffer, cb?: Function) {
-    const PACKAGE_PREFIX = '49';
-    let gifCodec = new gifWrap.GifCodec();
-    gifCodec.decodeGif(input).then(inputGif => {
-      //node.send({width: inputGif.width});
-      let frameNb = 0;
-      let totalSize = 0;
-      let encodedString = '';
-
-      inputGif.frames.forEach(frame => {
-        let colorsArray: number[] = [];
-        let colorCounter = 0;
-        let frameColors: number[] = [];
+    return new Promise<DivoomTimeBoxEvoProtocol>((resolve, reject) => {
+      let promise = Jimp.read(input);
+      promise.then(image => {
+        let resized = image.resize(16, 16, Jimp.RESIZE_NEAREST_NEIGHBOR);
+        let colorsHash: number[] = [];
+        let colorArray: number[] = [];
+        let counter = 0;
         let pixelArray: number[] = [];
-        let delay = frame.delayCentisecs * 10;
-        // to Fix ?
-        let resetPalette = true;
 
-        let image = (gifWrap.GifUtil.copyAsJimp(Jimp, frame) as Jimp).resize(16, 16);
-        image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x: number, y: number, idx: number) {
-          // x, y is the position of this pixel on the image
-          // idx is the position start position of this rgba tuple in the bitmap Buffer
-          // this is the image
-
+        resized.scan(0, 0, resized.bitmap.width, resized.bitmap.height, function (x, y, idx) {
           let red = this.bitmap.data[idx + 0];
           let green = this.bitmap.data[idx + 1];
           let blue = this.bitmap.data[idx + 2];
+          // let alpha = this.bitmap.data[idx + 3];
           let color = (red << 16) + (green << 8) + blue;
 
-          if (!colorsArray.includes(color)) {
-            colorsArray.push(color);
-            frameColors.push(color);
-            pixelArray[x + 16 * y] = colorCounter;
-            colorCounter++;
+          if (!colorsHash[color] && colorsHash[color] !== 0) {
+            colorsHash[color] = counter;
+            colorArray.push(color);
+            pixelArray[x + 16 * y] = counter;
+            counter++;
           } else {
-            pixelArray[x + 16 * y] = colorsArray.findIndex(function (element) {
-              return element === color;
-            });
+            pixelArray[x + 16 * y] = colorsHash[color];
           }
-        });
-
-        this._gifFrame[frameNb] = {};
-        this._gifFrame[frameNb].resetPalette = resetPalette;
-        this._gifFrame[frameNb].pixelArray = pixelArray;
-        this._gifFrame[frameNb].frameColors = frameColors;
-
-        this._gifFrame[frameNb].nbColorsHex = (frameColors.length % 256).toString(16).padStart(2, "0");
-        var colorString = '';
-        frameColors.forEach((color) => {
-          colorString += color.toString(16).padStart(6, '0');
         })
-        this._gifFrame[frameNb].colorString = colorString;
-
-        var whatever = Math.log(colorCounter) / Math.log(2);
-        let bits = Number.isInteger(whatever) ? whatever : (Math.trunc(whatever) + 1);
+        let nbColors = (counter % 256).toString(16).padStart(2, "0");
+        var colorString = '';
+        colorArray.forEach((color) => {
+          colorString += color.toString(16).padStart(6, '0')
+        })
+        let nbBitsForAPixel = Math.log(counter) / Math.log(2);
+        let bits = Number.isInteger(nbBitsForAPixel)
+          ? nbBitsForAPixel
+          : (Math.trunc(nbBitsForAPixel) + 1);
         if (bits === 0) bits = 1;
-        var pixelString = '';
+        let pixelString = '';
         pixelArray.forEach((pixel) => {
           pixelString += (pixel >>> 0).toString(2).padStart(8, '0').split("").reverse().join("").substring(0, bits)
         })
 
-        var pixBinArray = pixelString.match(/.{1,8}/g);
-        var pixelStringFinal = '';
-        pixBinArray.forEach((pixel) => {
+        let pixBinArray = pixelString.match(/.{1,8}/g);
+        let pixelStringFinal = '';
+        pixBinArray!.forEach((pixel) => {
           pixelStringFinal += parseInt(pixel.split("").reverse().join(""), 2).toString(16).padStart(2, '0');
         })
-        this._gifFrame[frameNb].pixelString = pixelStringFinal;
-        this._gifFrame[frameNb].frame = frameNb;
-        this._gifFrame[frameNb].delay = delay;
-        this._gifFrame[frameNb].delayHex = int2hexlittle(this._gifFrame[frameNb].delay);
 
-        this._gifFrame[frameNb].stringWithoutHeader =
-          this._gifFrame[frameNb].delayHex +
-          (resetPalette ? "00" : "01") +
-          this._gifFrame[frameNb].nbColorsHex +
-          this._gifFrame[frameNb].colorString +
-          this._gifFrame[frameNb].pixelString;
-        this._gifFrame[frameNb].size = (this._gifFrame[frameNb].stringWithoutHeader.length + 6) / 2;
-        totalSize! += this._gifFrame[frameNb].size;
-        this._gifFrame[frameNb].sizeHex = int2hexlittle(this._gifFrame[frameNb].size);
-        this._gifFrame[frameNb].fullString =
-          'aa' +
-          this._gifFrame[frameNb].sizeHex +
-          this._gifFrame[frameNb].stringWithoutHeader;
 
-        encodedString! += this._gifFrame[frameNb].fullString;
-        frameNb++;
-      });
-
-      let messageCounter = 0;
-      let totalSizeHex = int2hexlittle(totalSize);
-      encodedString.match(/.{1,400}/g).forEach((message) => {
-        this._queueMessage(
+        let length = int2hexlittle(('AA0000000000' + nbColors + colorString + pixelStringFinal).length / 2);
+        this._setMessage(
           PACKAGE_PREFIX
-          + totalSizeHex
-          + messageCounter.toString(16).padStart(2, '0')
-          + message
+          + length
+          + '000000'
+          + nbColors
+          + colorString
+          + pixelStringFinal
         )
-        messageCounter++;
-      });
-      if (cb) cb();
+        resolve(this);
+      })
+        .catch(err => {
+          reject(err);
+          throw err;
+        })
     })
-  };
+  }
+
+
+  private _displayAnimationFromGIF(input: Buffer): Promise<DivoomTimeBoxEvoProtocol> {
+    const PACKAGE_PREFIX = '49';
+    return new Promise<DivoomTimeBoxEvoProtocol>((resolve, reject) => {
+      let gifCodec = new gifWrap.GifCodec();
+      gifCodec.decodeGif(input).then(inputGif => {
+        //node.send({width: inputGif.width});
+        let frameNb = 0;
+        let totalSize = 0;
+        let encodedString = '';
+
+        inputGif.frames.forEach(frame => {
+          let colorsArray: number[] = [];
+          let colorCounter = 0;
+          let frameColors: number[] = [];
+          let pixelArray: number[] = [];
+          let delay = frame.delayCentisecs * 10;
+          // to Fix ?
+          let resetPalette = true;
+
+          let image = (gifWrap.GifUtil.copyAsJimp(Jimp, frame) as Jimp).resize(16, 16);
+          image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x: number, y: number, idx: number) {
+            // x, y is the position of this pixel on the image
+            // idx is the position start position of this rgba tuple in the bitmap Buffer
+            // this is the image
+
+            let red = this.bitmap.data[idx + 0];
+            let green = this.bitmap.data[idx + 1];
+            let blue = this.bitmap.data[idx + 2];
+            let color = (red << 16) + (green << 8) + blue;
+
+            if (!colorsArray.includes(color)) {
+              colorsArray.push(color);
+              frameColors.push(color);
+              pixelArray[x + 16 * y] = colorCounter;
+              colorCounter++;
+            } else {
+              pixelArray[x + 16 * y] = colorsArray.findIndex(function (element) {
+                return element === color;
+              });
+            }
+          });
+
+          this._gifFrame[frameNb] = {};
+          this._gifFrame[frameNb].resetPalette = resetPalette;
+          this._gifFrame[frameNb].pixelArray = pixelArray;
+          this._gifFrame[frameNb].frameColors = frameColors;
+
+          this._gifFrame[frameNb].nbColorsHex = (frameColors.length % 256).toString(16).padStart(2, "0");
+          var colorString = '';
+          frameColors.forEach((color) => {
+            colorString += color.toString(16).padStart(6, '0');
+          })
+          this._gifFrame[frameNb].colorString = colorString;
+
+          var whatever = Math.log(colorCounter) / Math.log(2);
+          let bits = Number.isInteger(whatever) ? whatever : (Math.trunc(whatever) + 1);
+          if (bits === 0) bits = 1;
+          var pixelString = '';
+          pixelArray.forEach((pixel) => {
+            pixelString += (pixel >>> 0).toString(2).padStart(8, '0').split("").reverse().join("").substring(0, bits)
+          })
+
+          var pixBinArray = pixelString.match(/.{1,8}/g);
+          var pixelStringFinal = '';
+          pixBinArray.forEach((pixel) => {
+            pixelStringFinal += parseInt(pixel.split("").reverse().join(""), 2).toString(16).padStart(2, '0');
+          })
+          this._gifFrame[frameNb].pixelString = pixelStringFinal;
+          this._gifFrame[frameNb].frame = frameNb;
+          this._gifFrame[frameNb].delay = delay;
+          this._gifFrame[frameNb].delayHex = int2hexlittle(this._gifFrame[frameNb].delay);
+
+          this._gifFrame[frameNb].stringWithoutHeader =
+            this._gifFrame[frameNb].delayHex +
+            (resetPalette ? "00" : "01") +
+            this._gifFrame[frameNb].nbColorsHex +
+            this._gifFrame[frameNb].colorString +
+            this._gifFrame[frameNb].pixelString;
+          this._gifFrame[frameNb].size = (this._gifFrame[frameNb].stringWithoutHeader.length + 6) / 2;
+          totalSize! += this._gifFrame[frameNb].size;
+          this._gifFrame[frameNb].sizeHex = int2hexlittle(this._gifFrame[frameNb].size);
+          this._gifFrame[frameNb].fullString =
+            'aa' +
+            this._gifFrame[frameNb].sizeHex +
+            this._gifFrame[frameNb].stringWithoutHeader;
+
+          encodedString! += this._gifFrame[frameNb].fullString;
+          frameNb++;
+        });
+
+        let messageCounter = 0;
+        let totalSizeHex = int2hexlittle(totalSize);
+        encodedString.match(/.{1,400}/g).forEach((message) => {
+          this._queueMessage(
+            PACKAGE_PREFIX
+            + totalSizeHex
+            + messageCounter.toString(16).padStart(2, '0')
+            + message
+          )
+          messageCounter++;
+        });
+        resolve(this);
+      })
+        .catch(err => {
+          reject(err);
+          throw err;
+        })
+    });
+  }
 }
 
 

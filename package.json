@@ -8,7 +8,12 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "pre-commit": [
+    "pre-commit"
+  ],
   "scripts": {
+    "pre-commit": "npm run test && npm run build && npm run doc && git add .",
+    "doc": "typedoc",
     "build": "rollup -c",
     "watch": "rollup -cw",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.spec.ts",
@@ -38,6 +43,7 @@
     "chai": "^4.2.0",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
+    "precommit": "^1.2.2",
     "rewire": "^4.0.1",
     "rollup": "^1.20.3",
     "rollup-plugin-typescript2": "^0.24.0",
