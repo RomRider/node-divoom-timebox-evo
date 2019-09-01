@@ -332,6 +332,45 @@ export class DivoomTimeBoxEvoProtocol {
   }
 
   /**
+   * This builds the pixel string to use in a message
+   * @param pixelArray the pixel array, each item being a reference to the color in the color array
+   * @param nbColors the number of colors in the colors array
+   * @returns the pixel sting to use in a message
+   */
+  private _getPixelString(pixelArray: number[], nbColors: number): string {
+    let nbBitsForAPixel = Math.log(nbColors) / Math.log(2);
+    let bits = Number.isInteger(nbBitsForAPixel)
+      ? nbBitsForAPixel
+      : (Math.trunc(nbBitsForAPixel) + 1);
+    if (bits === 0) bits = 1;
+
+    let pixelString = '';
+    pixelArray.forEach((pixel) => {
+      pixelString += pixel.toString(2).padStart(8, '0').split("").reverse().join("").substring(0, bits)
+    })
+
+    let pixBinArray = pixelString.match(/.{1,8}/g);
+    let pixelStringFinal = '';
+    pixBinArray!.forEach((pixel) => {
+      pixelStringFinal += parseInt(pixel.split("").reverse().join(""), 2).toString(16).padStart(2, '0');
+    })
+
+    return pixelStringFinal;
+  }
+
+  /**
+   * Returns the representation of a color array into a string usable dicrectly in a message
+   * @param colorArray the color array, each color should be an int
+   */
+  private _getColorString(colorArray: number[]): string {
+    var colorString = '';
+    colorArray.forEach((color) => {
+      colorString += color.toString(16).padStart(6, '0')
+    })
+    return colorString;
+  }
+
+  /**
    * This function generates the message when the a static image is used
    * @param input a Buffer representing an image file
    * @returns A promise which resolves when the processing is done
@@ -339,12 +378,11 @@ export class DivoomTimeBoxEvoProtocol {
   private _displayImage(input: Buffer): Promise<DivoomTimeBoxEvoProtocol> {
     const PACKAGE_PREFIX = '44000A0A04AA';
     return new Promise<DivoomTimeBoxEvoProtocol>((resolve, reject) => {
-      let promise = Jimp.read(input);
-      promise.then(image => {
+      Jimp.read(input).then(image => {
         let resized = image.resize(16, 16, Jimp.RESIZE_NEAREST_NEIGHBOR);
         let colorsHash: number[] = [];
         let colorArray: number[] = [];
-        let counter = 0;
+        let colorCount = 0;
         let pixelArray: number[] = [];
 
         resized.scan(0, 0, resized.bitmap.width, resized.bitmap.height, function (x, y, idx) {
@@ -355,44 +393,26 @@ export class DivoomTimeBoxEvoProtocol {
           let color = (red << 16) + (green << 8) + blue;
 
           if (!colorsHash[color] && colorsHash[color] !== 0) {
-            colorsHash[color] = counter;
+            colorsHash[color] = colorCount;
             colorArray.push(color);
-            pixelArray[x + 16 * y] = counter;
-            counter++;
+            pixelArray[x + 16 * y] = colorCount;
+            colorCount++;
           } else {
             pixelArray[x + 16 * y] = colorsHash[color];
           }
         })
-        let nbColors = (counter % 256).toString(16).padStart(2, "0");
-        var colorString = '';
-        colorArray.forEach((color) => {
-          colorString += color.toString(16).padStart(6, '0')
-        })
-        let nbBitsForAPixel = Math.log(counter) / Math.log(2);
-        let bits = Number.isInteger(nbBitsForAPixel)
-          ? nbBitsForAPixel
-          : (Math.trunc(nbBitsForAPixel) + 1);
-        if (bits === 0) bits = 1;
-        let pixelString = '';
-        pixelArray.forEach((pixel) => {
-          pixelString += (pixel >>> 0).toString(2).padStart(8, '0').split("").reverse().join("").substring(0, bits)
-        })
+        let nbColors = this._number2HexString(colorCount % 256);
+        var colorString = this._getColorString(colorArray);
+        let pixelString = this._getPixelString(pixelArray, colorCount);
 
-        let pixBinArray = pixelString.match(/.{1,8}/g);
-        let pixelStringFinal = '';
-        pixBinArray!.forEach((pixel) => {
-          pixelStringFinal += parseInt(pixel.split("").reverse().join(""), 2).toString(16).padStart(2, '0');
-        })
-
-
-        let length = int2hexlittle(('AA0000000000' + nbColors + colorString + pixelStringFinal).length / 2);
+        let length = int2hexlittle(('AA0000000000' + nbColors + colorString + pixelString).length / 2);
         this._setMessage(
           PACKAGE_PREFIX
           + length
           + '000000'
           + nbColors
           + colorString
-          + pixelStringFinal
+          + pixelString
         )
         resolve(this);
       })
@@ -454,27 +474,9 @@ export class DivoomTimeBoxEvoProtocol {
           this._gifFrame[frameNb].pixelArray = pixelArray;
           this._gifFrame[frameNb].frameColors = frameColors;
 
-          this._gifFrame[frameNb].nbColorsHex = (frameColors.length % 256).toString(16).padStart(2, "0");
-          var colorString = '';
-          frameColors.forEach((color) => {
-            colorString += color.toString(16).padStart(6, '0');
-          })
-          this._gifFrame[frameNb].colorString = colorString;
-
-          var whatever = Math.log(colorCounter) / Math.log(2);
-          let bits = Number.isInteger(whatever) ? whatever : (Math.trunc(whatever) + 1);
-          if (bits === 0) bits = 1;
-          var pixelString = '';
-          pixelArray.forEach((pixel) => {
-            pixelString += (pixel >>> 0).toString(2).padStart(8, '0').split("").reverse().join("").substring(0, bits)
-          })
-
-          var pixBinArray = pixelString.match(/.{1,8}/g);
-          var pixelStringFinal = '';
-          pixBinArray.forEach((pixel) => {
-            pixelStringFinal += parseInt(pixel.split("").reverse().join(""), 2).toString(16).padStart(2, '0');
-          })
-          this._gifFrame[frameNb].pixelString = pixelStringFinal;
+          this._gifFrame[frameNb].nbColorsHex = this._number2HexString(colorCounter % 256);
+          this._gifFrame[frameNb].colorString = this._getColorString(frameColors);
+          this._gifFrame[frameNb].pixelString = this._getPixelString(pixelArray, colorCounter);
           this._gifFrame[frameNb].frame = frameNb;
           this._gifFrame[frameNb].delay = delay;
           this._gifFrame[frameNb].delayHex = int2hexlittle(this._gifFrame[frameNb].delay);

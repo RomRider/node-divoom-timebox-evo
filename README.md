@@ -1,6 +1,6 @@
 # node-divoom-timebox-evo
 
-This module helps you generate the appropriate mesage to use against the divoom timebox evo.
+This module helps you generate the appropriate message to use against the divoom timebox evo.
 
 The communication part is not implemented here and you can use the [bluetooth-serial-port](https://github.com/eelcocramer/node-bluetooth-serial-port) module to communicate with the timebox.
 

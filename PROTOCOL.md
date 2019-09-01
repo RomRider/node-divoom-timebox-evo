@@ -28,10 +28,14 @@ This is inspired by:
       - [Visualization](#visualization)
       - [Animation](#animation)
       - [Scoreboard](#scoreboard)
-  - [Animations & Images](#animations--images)
+  - [Animations, Images and Text](#animations-images-and-text)
+    - [Calculate the image data](#calculate-the-image-data)
+      - [Color String (`COLOR_DATA`)](#color-string-colordata)
+      - [Pixel String (`PIXEL_DATA`)](#pixel-string-pixeldata)
     - [Animations](#animations)
       - [Message Header](#message-header)
-      - [Frame format](#frame-format)
+      - [Frame format (`FRAME_DATA`)](#frame-format-framedata)
+      - [Composing the resulting message](#composing-the-resulting-message)
     - [Images](#images)
 - [Receiving messages](#receiving-messages)
   - [command 46 (WIP)](#command-46-wip)
@@ -40,7 +44,7 @@ This is inspired by:
 
 # Documentation <!-- omit in toc -->
 ## Least Significant Byte first (LSB First)
-Numbers (especially lenghts) are coded in LSB first
+Numbers (especially lengths) are coded in LSB first
 To find the resulting number:
 * `byte1 = value & 0xFF`
 * `byte2 = (value >> 8) & 0xFF`
@@ -62,7 +66,7 @@ function int2hexlittle(value) {
 `01 LLLL PAYLOAD CRCR 02`
 
 * All the messages will start with `01` and end with `02`
-* `LLLL` is the length of the `PAYLOAD` string + the lenght of the CRC (`4`) in number of bytes (`FF` is one byte for exemple) in LSB First
+* `LLLL` is the length of the `PAYLOAD` string + the length of the CRC (`4`) in number of bytes (`FF` is one byte for example) in LSB First
   ```js
   function getLength (payload) {
     // CRC is 4 characters
@@ -82,6 +86,8 @@ function int2hexlittle(value) {
   }
   ```
   * `PAYLOAD` is anything based on the documentation below
+
+Split the message every `1332` characters and send that as a binary buffer to
 
 -----
 
@@ -186,7 +192,7 @@ Full String: `4501 RRGGBB BB TT PP 000000`
 * `00`: Plain color
 * `01`: Love
 * `02`: Plants
-* `03`: No Mosquitto
+* `03`: No Mosquito
 * `04`: Sleeping
 
 `PP`: Power should usually be `01` (`00` would turn off the display)<br />
@@ -232,13 +238,92 @@ function getScoreBoardEncoded(red, blue) {
 }
 ```
 
-### Animations & Images
+### Animations, Images and Text
+
+#### Calculate the image data
+
+An image data is composed of a palette and a representation of the pixel composing the image.
+Each pixel references a color from the color palette. You can't have more than 256 colors in a palette, but you only have 256 pixels on the screen so that's okay.
+
+Algorithm:
+* You'll need 2 arrays: `pixelArray` and `colorArray`
+* `x` and `y` are the coordinates of the current pixel on the source image
+* Parse your image left to right, top to bottom (preferably)
+* If the pixel color in the image doesn't exist in the `colorArray`:
+  * push that color to the `colorArray`
+  * retrieve the index where of that new element you just pushed in the `colorArray`
+  * store this index into `pixelArray[x + 16 * y]`
+* If the pixel color already exists in the `colorArray`:
+  * retrieve the index where the color is stored in the `colorArray`
+  * store this index into `pixelArray[x + 16 * y]`
+
+Once the image is completely parsed, you can build your color string and your pixel string.
+
+##### Color String (`COLOR_DATA`)
+The color string is pretty straightforward to build:
+* Iterate over `colorArray`
+* For each color, append the value in hexadecimal `RRGGBB` to the resulting `colorString`
+
+```js
+function _getColorString(colorArray: number[]): string {
+  var colorString = '';
+  colorArray.forEach((color) => {
+    colorString += color.toString(16).padStart(6, '0')
+  })
+  return colorString;
+}
+```
+
+You're done!
+
+##### Pixel String (`PIXEL_DATA`)
+The pixel string is a bit more complex:
+* You first need to calculate the number of bits needed for each pixel:
+  * `nbBits = log(colorArray.length) / log(2)`
+  * If the `nbBits` is a float, truncate the value and add 1 to it.
+  * If the `nbBits` is 0, add 1
+* Then for each entry in `pixelArray`:
+  * convert the value to a binary representation (8 bits)
+  * reverse it (`b1 b2 b3 b4 b5 b6 b7 b8` becomes `b8 b7 b6 b5 b4 b3 b2 b1`)
+  * keep only the first `nbBits` from this result
+  * append each bit of that result to a `bitArray`
+* The resulting `bitArray` should have a length which is a multiple of 8.
+* Then loop over `bitArray` 8 entries by 8 entries:
+  * Take the 8 entries (which is then a byte)
+  * reverse them again (`b1 b2 b3 b4 b5 b6 b7 b8` becomes `b8 b7 b6 b5 b4 b3 b2 b1`)
+  * Convert that result to an hexadecimal string representation of 1 byte (`XX`, 2 characters), do not forget leading 0s
+  * Append that to the final `pixelString`
+
+```js
+function _getPixelString(pixelArray: number[], nbColors: number): string {
+  let nbBitsForAPixel = Math.log(nbColors) / Math.log(2);
+  let bits = Number.isInteger(nbBitsForAPixel)
+    ? nbBitsForAPixel
+    : (Math.trunc(nbBitsForAPixel) + 1);
+  if (bits === 0) bits = 1;
+
+  let pixelString = '';
+  pixelArray.forEach((pixel) => {
+    pixelString += pixel.toString(2).padStart(8, '0').split("").reverse().join("").substring(0, bits)
+  })
+
+  let pixBinArray = pixelString.match(/.{1,8}/g);
+  let pixelStringFinal = '';
+  pixBinArray!.forEach((pixel) => {
+    pixelStringFinal += parseInt(pixel.split("").reverse().join(""), 2).toString(16).padStart(2, '0');
+  })
+
+  return pixelStringFinal;
+}
+```
+
+You're done!
 
 #### Animations
 
 I didn't yet find a way to send all the 9 animations like like you would do with the app. However this section covers a way to send an endless looping animation that will be displayed on screen.
 
-Each message's payload needs to be `400` excluding header, size, crc and trailer
+Each message's payload needs to be `400` excluding header, size, CRC and trailer
 ```
 01 LLLL 49 XXXX XX PAYLOAD CCCC 02
 ```
@@ -246,27 +331,46 @@ The payload is all the frames concatenated in one string and then split every 40
 
 ##### Message Header
 
-`49 XXXX XX`<br />
+`49 LLLL NN FRAME_DATA`<br />
 `49`: Fixed to say we're sending an animation<br />
-`XXXX`: Sum of all sizes of all frames (after `AA`) (LSB: `byte 1 & 0xFF`, `(byte 2 >> 8) & 0xFF`)<br />
-`XX`: Packet Number (each packet has a data payload of 400 top)<br />
+`LLLL`: Sum of all sizes of all frames (after `AA`) in LSB First<br />
+`NN`: Packet Number, starting at 0 (each packet has a data payload of 400 top)<br />
+`FRAME_DATA`: See below
 
-##### Frame format
+##### Frame format (`FRAME_DATA`)
 
+For each frame of your animation, you'll have to build a frame string.
+
+A frame is always of the same format: `AA LLLL TTTT RR NN COLOR_DATA PIXEL_DATA`
 `AA`: Frame Start<br />
-`XXXX`: Frame length / 2 (byte 1 & 0xFF, (byte 2 >> 8) & 0xFF)<br />
-TTTT = TT Time in ms (byte 1 & 0xFF, (byte 2 >> 8) & 0xFF)<br />
-XX = Reset Palette 01 else 00 (Reset palette if number of colors since begining > 256)<br />
-XX = Nb of Colors<br />
-Then color list<br />
-Then image<br />
+`LLLL`: Full `FRAME_DATA` **string** length divided by 2 (or number of bytes representing `FRAME_DATA`) in LSB First<br />
+`TTTT`: Time of the frame in ms in LSB First<br />
+`RR`: Reset Palette `00` else `01` (Reset palette if number of colors since beginning > 256?) I decided to reset the palette on each frame, I didn't manage to make it work otherwise<br />
+`NN`: Number of Colors in the frame's palette in hexadecimal, if 256, put `00` <br />
+`COLOR_DATA`: See [COLOR_DATA](#color-string-colordata)<br />
+`PIXEL_DATA`: See [PIXEL_DATA](#pixel-string-pixeldata)<br />
 
-Split when data (exlucing the first 8 caracters) is = 400)
+##### Composing the resulting message
 
+1. Build a string of all your `FRAME_DATA` concatenated
+2. Split the string every 400 characters
+3. Prepend the message header (`49 LLLL NN`) to it, this is now your `PAYLOAD`
+4. Send this message (with the usual `01 LLLL PAYLOAD CRCR 02`)
 
 #### Images
 
-TBD
+An image is always the same format:
+```
+44000A0A04 AA LLLL 000000 NN COLOR_DATA PIXEL_DATA
+           |<---------- IMAGE_DATA ------------->|
+```
+`44000A0A04`: Fixed header<br />
+`AA`: Image Start<br />
+`LLLL`: Full `IMAGE_DATA` **string** length divided by 2 (or number of bytes representing `IMAGE_DATA`) in LSB First<br />
+`000000`: Fixed String<br />
+`NN`: Number of colors in the image's palette in hexadecimal, if 256, put `00` <br />
+`COLOR_DATA`: See [COLOR_DATA](#color-string-colordata)<br />
+`PIXEL_DATA`: See [PIXEL_DATA](#pixel-string-pixeldata)<br />
 
 ----
 
