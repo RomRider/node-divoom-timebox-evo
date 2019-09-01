@@ -16,6 +16,9 @@ export class DivoomTimeBoxEvoProtocol {
   private _crc: string | undefined;
   private _fullMessage: string[] = [];
   private _gifFrame: any[] = [];
+  private _textAnimFn: Function;
+  private _textAnimFrame: number = 0;
+  private _textAnimPalette: string[] = [];
 
   private _setMessage(msg: string | Buffer): void {
     if (msg === undefined) {
@@ -95,7 +98,7 @@ export class DivoomTimeBoxEvoProtocol {
   }
 
   private _color2HexString(color: TinyColor): string {
-    return color.toHexString().substring(1);
+    return color.toHex();
   }
 
   private _brightness2HexString(brightness: number): string {
@@ -516,5 +519,72 @@ export class DivoomTimeBoxEvoProtocol {
           reject(err);
         })
     });
+  }
+
+
+  private _encodeText(text: string): string {
+    let length = this._number2HexString(text.length);
+    let encodedText = "8601" + length;
+    text.split("").forEach((char) => {
+      encodedText += int2hexlittle(char.charCodeAt(0));
+    })
+    return encodedText;
+  }
+
+  public buildTextPackage(text: string, paletteFn: Function, animFn: Function) {
+    if (typeof paletteFn !== 'function' || typeof animFn !== 'function') {
+      throw new Error('paletteFn and animFn need to be functions')
+    }
+    this._textAnimFn = animFn;
+    this._textAnimFrame = 0;
+
+    const PACKAGE_INIT_MESSAGE = "6e01";
+    this._fullMessage = [];
+    this._queueMessage(PACKAGE_INIT_MESSAGE);
+    this._queueMessage(this._encodeText(text));
+
+    const PALETTE_HEADER = "6c00000704aa070446000000";
+    const PALETTE_TRAILER = "00".repeat(256);
+    let palette: TinyColor[] = paletteFn();
+
+    if (palette.length !== 256) {
+      throw new Error('The paletteFn should always generate 256 colors')
+    }
+    let paletteArray: string[] = [];
+    palette.forEach(color => {
+      let tc = new TinyColor(color);
+      if (!tc.isValid) throw new Error('One of your color is not valid')
+      paletteArray.push(tc.toHex())
+    })
+    this._textAnimPalette = paletteArray;
+    let paletteString = paletteArray.join("");
+    this._queueMessage(
+      PALETTE_HEADER
+      + paletteString
+      + PALETTE_TRAILER
+    );
+  }
+
+  public getNextTextAnimationFrame(): Buffer[] {
+    let pixelArray: number[] = this._textAnimFn(this._textAnimFrame);
+    if (pixelArray.length < 256) throw new Error('The animFn should always generate a 256 pixel array')
+
+    let pixelString = ''
+    pixelArray.forEach(pixel => {
+      pixelString += this._number2HexString(pixel);
+    });
+
+    let animString = "6c"
+      + int2hexlittle(this._textAnimFrame % 65536)
+      + "0701aa070143000100"
+      + pixelString
+    this._textAnimFrame++;
+    this._fullMessage = [];
+    this._queueMessage(animString);
+    return this.getDivoomBinaryBuffer();
+  }
+
+  public getAnimPalette(): string[] {
+    return this._textAnimPalette;
   }
 }
