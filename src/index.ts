@@ -567,7 +567,7 @@ export class DivoomTimeBoxEvoProtocol {
 
   public getNextTextAnimationFrame(): Buffer[] {
     let pixelArray: number[] = this._textAnimFn(this._textAnimFrame);
-    if (pixelArray.length < 256) throw new Error('The animFn should always generate a 256 pixel array')
+    if (pixelArray.length !== 256) throw new Error('The animFn should always generate a 256 pixel array')
 
     let pixelString = ''
     pixelArray.forEach(pixel => {
