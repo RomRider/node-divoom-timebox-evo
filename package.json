@@ -18,7 +18,14 @@
     "build": "rollup -c",
     "watch": "rollup -cw",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/**/*.spec.ts",
-    "testWithCoverage": "nyc -r lcov -e .ts -x \"test/**/*.spec.ts\" mocha -r ts-node/register test/**/*.spec.ts && nyc report"
+    "testWithCoverage": "nyc -r lcov -e .ts -x \"test/**/*.spec.ts\" mocha -r ts-node/register test/**/*.spec.ts && nyc report",
+    "beta-version-patch": "npm version $(semver $npm_package_version -i prerelease --preid beta)",
+    "beta-version-minor": "npm version $(semver $npm_package_version -i preminor --preid beta)",
+    "beta-version-major": "npm version $(semver $npm_package_version -i premajor --preid beta)",
+    "rc-version": "npm version $(semver $npm_package_version -i prerelease --preid rc)",
+    "release-patch": "npm version $(semver $npm_package_version -i)",
+    "release-minor": "npm version $(semver $npm_package_version -i minor)",
+    "release-major": "npm version $(semver $npm_package_version -i major)"
   },
   "repository": {
     "type": "git",
@@ -48,6 +55,7 @@
     "rewire": "^4.0.1",
     "rollup": "^1.20.3",
     "rollup-plugin-typescript2": "^0.24.0",
+    "semver": "^6.3.0",
     "ts-node": "^8.3.0",
     "typedoc": "^0.15.0",
     "typescript": "^3.6.2"
