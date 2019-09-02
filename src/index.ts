@@ -1,184 +1,53 @@
-import { LightningType, TimeDisplayType, WeatherType } from "./types";
-import { int2hexlittle, unhexlify } from "./utils";
+import { LightningType, WeatherType } from "./types";
+import { int2hexlittle, color2HexString, brightness2HexString, number2HexString, boolean2HexString } from "./utils";
 import { TinyColor } from "@ctrl/tinycolor";
+import { DivoomMessages } from "./message_array";
+import { DivoomMessage } from "./message";
 import fileType from "file-type";
 import Jimp from 'jimp';
 import gifWrap from 'gifwrap';
 import fs from "fs";
-import { resolve } from "dns";
+import { TimeChannel } from "./channels/time";
+import { DivoomTimeBoxRAW } from "./divoom_raw";
+import { LightningChannel } from "./channels/lightning";
+export * from "./channels/time"
+
+
+export class DivoomTimeBoxEvo {
+  constructor(type?: string, opts?: any) {
+    if (!type) return new DivoomTimeBoxRAW;
+    switch (type.toLowerCase()) {
+      case "time":
+        return new TimeChannel(opts);
+      case "lightning":
+        return new LightningChannel(opts);
+      case "raw":
+        return new DivoomTimeBoxRAW;
+      default:
+        throw new Error('Unkown type');
+    }
+  }
+}
 
 export class DivoomTimeBoxEvoProtocol {
-  private PREFIX = "01";
-  private SUFFIX = "02";
-
-  private _message: string | undefined;
-  private _length: string | undefined;
-  private _crc: string | undefined;
-  private _fullMessage: string[] = [];
+  private _messages: DivoomMessages = DivoomMessages.create();
   private _gifFrame: any[] = [];
   private _textAnimFn: Function;
   private _textAnimFrame: number = 0;
   private _textAnimPalette: string[] = [];
 
-  private _setMessage(msg: string | Buffer): void {
-    if (msg === undefined) {
-      return;
-    }
-    let localmsg: string | undefined;
-    if (Buffer.isBuffer(msg)) {
-      localmsg = msg.toString('ascii');
-    } else {
-      localmsg = msg.toLowerCase();
-    }
-    this._length = int2hexlittle((msg.length + 4) / 2);
-    this._setCRC(this._length + localmsg);
-    this._message = localmsg;
-    let fullMessage: string[] = [];
-    let message: string = this.PREFIX + this._length + this._message + this._crc + this.SUFFIX;
-    if (message) {
-      message.match(/.{1,1332}/g)!.forEach((slice) => {
-        fullMessage.push(slice);
-      })
-    }
-    this._fullMessage = fullMessage;
-  }
-
-  private _queueMessage(msg: string | Buffer): void {
-    if (msg === undefined) {
-      return;
-    }
-    let localmsg: string | undefined;
-    if (Buffer.isBuffer(msg)) {
-      localmsg = msg.toString('ascii');
-    } else {
-      localmsg = msg.toLowerCase();
-    }
-    this._length = int2hexlittle((msg.length + 4) / 2);
-    this._setCRC(this._length + localmsg);
-    this._message = localmsg;
-    let message: string = this.PREFIX + this._length + this._message + this._crc + this.SUFFIX;
-    if (message) {
-      message.match(/.{1,1332}/g)!.forEach((slice) => {
-        this._fullMessage.push(slice);
-      })
-    }
-  }
-
-  private _setCRC(msg: string): void {
-    if (msg !== undefined) {
-      let sum = 0;
-      for (let i: number = 0, l: number = msg.length; i < l; i += 2) {
-        sum += parseInt(msg.substr(i, 2), 16)
-      }
-      this._crc = int2hexlittle(sum % 65536);
-    }
-  }
-
-  private _string2BinBuffer(msg: string[] | undefined): Buffer[] | undefined {
-    if (msg === undefined) {
-      return undefined;
-    }
-    let bufferArray: Buffer[] = [];
-    msg.forEach((slice) => {
-      bufferArray.push(new Buffer(unhexlify(slice), 'binary'));
-    })
-    return bufferArray;
-  }
-
-  private _boolean2HexString(bool: boolean): string {
-    return bool ? "01" : "00";
-  }
-
-  private _number2HexString(int: number): string {
-    if (int > 255 || int < 0) {
-      throw new Error('_number2HexString works only with number between 0 and 255')
-    }
-
-    return Math.round(int).toString(16).padStart(2, "0");
-  }
-
-  private _color2HexString(color: TinyColor): string {
-    return color.toHex();
-  }
-
-  private _brightness2HexString(brightness: number): string {
-    if (brightness > 100) {
-      brightness = 100;
-    } else if (brightness < 0) {
-      brightness = 0;
-    }
-    return this._number2HexString(Math.trunc(brightness));
-  }
-
-  /**
-   * Generates the appropriate message to display the Time Channel on the Divoom Timebox Evo
-   * @param type type of time to display:
-   * @param color the color to display, can be of any type supported by [TinyColor]
-   * @param showTime show the time?
-   * @param showWeather show the weather?
-   * @param showTemp show the temperature?
-   * @param showCalendar show the calendar?
-   */
-  public displayTimePackage(
-    type: TimeDisplayType = 0,
-    color: any = "#FFFFFF",
-    showTime: boolean = true,
-    showWeather: boolean = false,
-    showTemp: boolean = false,
-    showCalendar: boolean = false,
-  ) {
-    const PACKAGE_PREFIX = "450001"
-    let localColor = new TinyColor(color);
-    if (!localColor.isValid) {
-      throw new Error(`Provided color ${color} is not valid`)
-    }
-    this._setMessage(
-      PACKAGE_PREFIX
-      + this._number2HexString(type)
-      + this._boolean2HexString(showTime)
-      + this._boolean2HexString(showWeather)
-      + this._boolean2HexString(showTemp)
-      + this._boolean2HexString(showCalendar)
-      + this._color2HexString(localColor)
-    )
-  }
-
-  /**
-   * Generates the appropriate message to display the Lightning Channel on the Divoom Timebox Evo
-   * @param type type of lightning you want to display
-   * @param color the color to display, can be of any type supported by [TinyColor]
-   * @param brightness brightness `0` - `100` range
-   * @param power if `false`, the display is turned off
-   */
-  public displayLightningPackage(
-    type: LightningType = 0,
-    color: any = "#FFFFFF",
-    brightness: number = 100,
-    power: boolean = true,
-  ) {
-    const PACKAGE_PREFIX = "4501";
-    const PACKAGE_SUFFIX = "000000";
-
-    let localColor = new TinyColor(color);
-    if (!localColor.isValid) {
-      throw `Provided color ${color} is not valid`
-    }
-
-    this._setMessage(
-      PACKAGE_PREFIX
-      + this._color2HexString(localColor)
-      + this._brightness2HexString(brightness)
-      + this._number2HexString(type)
-      + this._boolean2HexString(power)
-      + PACKAGE_SUFFIX
-    )
+  private _queueMessage(msg: DivoomMessage): void {
+    this._messages.push(msg);
   }
 
   /**
    * Generates the appropriate message to display the Cloud Channel
    */
   public displayCloudPackage() {
-    this._setMessage("4502");
+    this._messages = DivoomMessages.create();
+    this._queueMessage(
+      new DivoomMessage("4502")
+    );
   }
 
   /**
@@ -186,11 +55,14 @@ export class DivoomTimeBoxEvoProtocol {
    * @param type type of Effect to display
    */
   public displayVJEffectsPackage(type: number = 0) {
+    this._messages = DivoomMessages.create();
     const PACKAGE_PREFIX = "4503";
 
-    this._setMessage(
-      PACKAGE_PREFIX
-      + this._number2HexString(type)
+    this._queueMessage(
+      new DivoomMessage(
+        PACKAGE_PREFIX
+        + number2HexString(type)
+      )
     );
   }
 
@@ -200,14 +72,17 @@ export class DivoomTimeBoxEvoProtocol {
    * @param blue the score for the blue player (0 - 999)
    */
   public displayScoreBoardPackage(red: number = 0, blue: number = 0) {
+    this._messages = DivoomMessages.create();
     const PACKAGE_PREFIX = "450600";
 
     red = Math.min(999, Math.max(0, red));
     blue = Math.min(999, Math.max(0, blue));
-    this._setMessage(
-      PACKAGE_PREFIX
-      + int2hexlittle(red)
-      + int2hexlittle(blue)
+    this._queueMessage(
+      new DivoomMessage(
+        PACKAGE_PREFIX
+        + int2hexlittle(red)
+        + int2hexlittle(blue)
+      )
     );
   }
 
@@ -217,21 +92,24 @@ export class DivoomTimeBoxEvoProtocol {
    * @param weatherType type of weather to set
    */
   public setTempAndWeatherPackage(temp: number, weatherType: WeatherType) {
+    this._messages = DivoomMessages.create();
     const PACKAGE_PREFIX = "5F"
     if (temp > 128 || temp < -127) {
       throw new Error('temp should be >= -127 and <= 128')
     }
     let encodedTemp = ""
     if (temp >= 0) {
-      encodedTemp = this._number2HexString(temp);
+      encodedTemp = number2HexString(temp);
     } else {
       let value = 256 + temp
-      encodedTemp = this._number2HexString(value);
+      encodedTemp = number2HexString(value);
     }
-    this._setMessage(
-      PACKAGE_PREFIX
-      + encodedTemp
-      + this._number2HexString(weatherType)
+    this._queueMessage(
+      new DivoomMessage(
+        PACKAGE_PREFIX
+        + encodedTemp
+        + number2HexString(weatherType)
+      )
     );
   }
 
@@ -246,6 +124,7 @@ export class DivoomTimeBoxEvoProtocol {
     in_min?: number,
     in_max?: number,
   ) {
+    this._messages = DivoomMessages.create();
     const PACKAGE_PREFIX = "74"
 
     function map(x: number, in_min: number, in_max: number, out_min: number, out_max: number) {
@@ -261,9 +140,11 @@ export class DivoomTimeBoxEvoProtocol {
     if ((brightness > 100 || brightness < 0) && (in_min === undefined || in_max === undefined)) {
       throw new Error('Brightness should be between 0 and 100 or in_min and in_max should be defined');
     }
-    this._setMessage(
-      PACKAGE_PREFIX
-      + this._number2HexString(briInRange)
+    this._queueMessage(
+      new DivoomMessage(
+        PACKAGE_PREFIX
+        + number2HexString(briInRange)
+      )
     );
   }
 
@@ -271,35 +152,19 @@ export class DivoomTimeBoxEvoProtocol {
    * Generates the full message, properly split which will be ready to be send to Divoom
    * @param msg the string or Buffer that you want to encode before sending to Divoom
    */
-  public createRAWPackage(msg: string | Buffer) {
-    this._setMessage(msg);
+  public createRAWPackage(msg: string) {
+    this._messages = DivoomMessages.create();
+    this._queueMessage(
+      new DivoomMessage(msg)
+    );
   }
 
   /**
    * @returns The an array of strings of all the messages which should be sent
    */
-  public getDivoomMessageArray(): string[] | undefined {
-    return this._fullMessage;
+  get messages(): DivoomMessages {
+    return this._messages;
   }
-
-  public getDivoomMessageString(): string | undefined {
-    if (this._fullMessage.length === 0)
-      return undefined;
-    let message = "";
-    this._fullMessage.forEach((elt) => {
-      message += elt;
-    })
-    return message;
-  }
-
-  /**
-   * @returns The an array of messages as a Binary Buffer ready to be sent
-   */
-  public getDivoomBinaryBuffer(): Buffer[] | undefined {
-    return this._string2BinBuffer(this._fullMessage);
-  }
-
-
 
   /**
    * Generates the appropriate message to display an animation or an image on the Timebox
@@ -307,7 +172,7 @@ export class DivoomTimeBoxEvoProtocol {
    * @returns A promise which resolves when the processing is done
    */
   public displayAnimation(input: Buffer | string): Promise<DivoomTimeBoxEvoProtocol> {
-    this._fullMessage = [];
+    this._messages = DivoomMessages.create();
     let buffer: Buffer;
     if (!Buffer.isBuffer(input)) {
       buffer = fs.readFileSync(input);
@@ -404,18 +269,20 @@ export class DivoomTimeBoxEvoProtocol {
             pixelArray[x + 16 * y] = colorsHash[color];
           }
         })
-        let nbColors = this._number2HexString(colorCount % 256);
+        let nbColors = number2HexString(colorCount % 256);
         var colorString = this._getColorString(colorArray);
         let pixelString = this._getPixelString(pixelArray, colorCount);
 
         let length = int2hexlittle(('AA0000000000' + nbColors + colorString + pixelString).length / 2);
-        this._setMessage(
-          PACKAGE_PREFIX
-          + length
-          + '000000'
-          + nbColors
-          + colorString
-          + pixelString
+        this._queueMessage(
+          new DivoomMessage(
+            PACKAGE_PREFIX
+            + length
+            + '000000'
+            + nbColors
+            + colorString
+            + pixelString
+          )
         )
         resolve(this);
       })
@@ -432,6 +299,7 @@ export class DivoomTimeBoxEvoProtocol {
    */
   private _displayAnimationFromGIF(input: Buffer): Promise<DivoomTimeBoxEvoProtocol> {
     const PACKAGE_PREFIX = '49';
+    this._gifFrame = [];
     return new Promise<DivoomTimeBoxEvoProtocol>((resolve, reject) => {
       let gifCodec = new gifWrap.GifCodec();
       gifCodec.decodeGif(input).then(inputGif => {
@@ -477,7 +345,7 @@ export class DivoomTimeBoxEvoProtocol {
           this._gifFrame[frameNb].pixelArray = pixelArray;
           this._gifFrame[frameNb].frameColors = frameColors;
 
-          this._gifFrame[frameNb].nbColorsHex = this._number2HexString(colorCounter % 256);
+          this._gifFrame[frameNb].nbColorsHex = number2HexString(colorCounter % 256);
           this._gifFrame[frameNb].colorString = this._getColorString(frameColors);
           this._gifFrame[frameNb].pixelString = this._getPixelString(pixelArray, colorCounter);
           this._gifFrame[frameNb].frame = frameNb;
@@ -506,10 +374,12 @@ export class DivoomTimeBoxEvoProtocol {
         let totalSizeHex = int2hexlittle(totalSize);
         encodedString.match(/.{1,400}/g).forEach((message) => {
           this._queueMessage(
-            PACKAGE_PREFIX
-            + totalSizeHex
-            + messageCounter.toString(16).padStart(2, '0')
-            + message
+            new DivoomMessage(
+              PACKAGE_PREFIX
+              + totalSizeHex
+              + messageCounter.toString(16).padStart(2, '0')
+              + message
+            )
           )
           messageCounter++;
         });
@@ -523,7 +393,7 @@ export class DivoomTimeBoxEvoProtocol {
 
 
   private _encodeText(text: string): string {
-    let length = this._number2HexString(text.length);
+    let length = number2HexString(text.length);
     let encodedText = "8601" + length;
     text.split("").forEach((char) => {
       encodedText += int2hexlittle(char.charCodeAt(0));
@@ -532,6 +402,7 @@ export class DivoomTimeBoxEvoProtocol {
   }
 
   public buildTextPackage(text: string, paletteFn: Function, animFn: Function) {
+    this._messages = DivoomMessages.create();
     if (typeof paletteFn !== 'function' || typeof animFn !== 'function') {
       throw new Error('paletteFn and animFn need to be functions')
     }
@@ -539,9 +410,9 @@ export class DivoomTimeBoxEvoProtocol {
     this._textAnimFrame = 0;
 
     const PACKAGE_INIT_MESSAGE = "6e01";
-    this._fullMessage = [];
-    this._queueMessage(PACKAGE_INIT_MESSAGE);
-    this._queueMessage(this._encodeText(text));
+    this._messages = DivoomMessages.create();
+    this._queueMessage(new DivoomMessage(PACKAGE_INIT_MESSAGE));
+    this._queueMessage(new DivoomMessage(this._encodeText(text)));
 
     const PALETTE_HEADER = "6c00000704aa070446000000";
     const PALETTE_TRAILER = "00".repeat(256);
@@ -559,9 +430,11 @@ export class DivoomTimeBoxEvoProtocol {
     this._textAnimPalette = paletteArray;
     let paletteString = paletteArray.join("");
     this._queueMessage(
-      PALETTE_HEADER
-      + paletteString
-      + PALETTE_TRAILER
+      new DivoomMessage(
+        PALETTE_HEADER
+        + paletteString
+        + PALETTE_TRAILER
+      )
     );
   }
 
@@ -571,7 +444,7 @@ export class DivoomTimeBoxEvoProtocol {
 
     let pixelString = ''
     pixelArray.forEach(pixel => {
-      pixelString += this._number2HexString(pixel);
+      pixelString += number2HexString(pixel);
     });
 
     let animString = "6c"
@@ -579,9 +452,10 @@ export class DivoomTimeBoxEvoProtocol {
       + "0701aa070143000100"
       + pixelString
     this._textAnimFrame++;
-    this._fullMessage = [];
-    this._queueMessage(animString);
-    return this.getDivoomBinaryBuffer();
+    let message = new DivoomMessage(animString);
+    let msgs = DivoomMessages.create();
+    msgs.push(message);
+    return msgs.asBinaryBuffer();
   }
 
   public getAnimPalette(): string[] {

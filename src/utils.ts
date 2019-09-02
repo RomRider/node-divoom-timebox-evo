@@ -1,3 +1,5 @@
+import { TinyColor } from "@ctrl/tinycolor";
+
 export function unhexlify(str: string) {
   var result = '';
   if (str.length % 2 !== 0) {
@@ -20,4 +22,29 @@ export function int2hexlittle(value: number): string {
   const byte1 = (value & 0xFF).toString(16).padStart(2, "0");
   const byte2 = ((value >> 8) & 0xFF).toString(16).padStart(2, "0");
   return `${byte1}${byte2}`;
+}
+
+export function number2HexString(int: number): string {
+  if (int > 255 || int < 0) {
+    throw new Error('number2HexString works only with number between 0 and 255')
+  }
+
+  return Math.round(int).toString(16).padStart(2, "0");
+}
+
+export function boolean2HexString(bool: boolean): string {
+  return bool ? "01" : "00";
+}
+
+export function color2HexString(color: TinyColor): string {
+  return color.toHex();
+}
+
+export function brightness2HexString(brightness: number): string {
+  if (brightness > 100) {
+    brightness = 100;
+  } else if (brightness < 0) {
+    brightness = 0;
+  }
+  return number2HexString(Math.trunc(brightness));
 }

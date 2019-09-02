@@ -27,7 +27,7 @@ btSerial.findSerialPortChannel(TIMEBOX_ADDRESS, function(channel) {
 
 var d = new Divoom.DivoomTimeBoxEvoProtocol;
 d.displayAnimation('animation.gif').then(result => {
-  result.getDivoomBinaryBuffer().forEach(elt => {
+  result.messages.asBinaryBuffer().forEach(elt => {
     btSerial.write(elt,
       function(err, bytesWritten) {
         if (err) console.log(err);
@@ -56,7 +56,7 @@ npm i node-divoom-timebox-evo
 
   var d = new Divoom.DivoomTimeBoxEvoProtocol;
   d.displayAnimation('file.png').then(result => {
-    console.log(result.getDivoomBinaryBuffer());
+    console.log(result.messages);
     // send toSend to the Divoom
     // use https://github.com/eelcocramer/node-bluetooth-serial-port
   });
