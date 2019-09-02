@@ -22,3 +22,27 @@ export enum WeatherType {
   Snow = 8,
   Fog = 9
 }
+
+export enum VJEffectType {
+  Sparkles = 0,
+  Lava,
+  VerticalRainbowLines,
+  Drops,
+  RainbowSwirl,
+  CMYFade,
+  RainbowLava,
+  PastelPatterns,
+  CMYWave,
+  Fire,
+  Countdown,
+  PinkBlueFade,
+  RainbowPolygons,
+  PinkBlueWave,
+  RainbowCross,
+}
+
+export const DivoomConst = {
+  TimeType: TimeDisplayType,
+  LightningType: LightningType,
+  WeatherType: WeatherType,
+}

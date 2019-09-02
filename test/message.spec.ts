@@ -57,4 +57,13 @@ describe('DivoomMessage class', () => {
     expect(m.length).to.be.undefined;
     expect(m.lengthHS).to.be.undefined;
   })
+  it('should set the proper payload', () => {
+    let m = new DivoomMessage;
+    m.payload = '4500010001000100ff00ff';
+    const shouldBe = "010d004500010001000100ff00ff530202";
+    const is = m.message;
+
+    expect(is).to.equal(shouldBe);
+    expect(is.length).to.equal(shouldBe.length);
+  })
 })

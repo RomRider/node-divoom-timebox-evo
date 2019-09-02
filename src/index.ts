@@ -1,4 +1,4 @@
-import { LightningType, WeatherType } from "./types";
+import { WeatherType } from "./types";
 import { int2hexlittle, color2HexString, brightness2HexString, number2HexString, boolean2HexString } from "./utils";
 import { TinyColor } from "@ctrl/tinycolor";
 import { DivoomMessages } from "./message_array";
@@ -7,11 +7,11 @@ import fileType from "file-type";
 import Jimp from 'jimp';
 import gifWrap from 'gifwrap';
 import fs from "fs";
-import { TimeChannel } from "./channels/time";
 import { DivoomTimeBoxRAW } from "./divoom_raw";
-import { LightningChannel } from "./channels/lightning";
-export * from "./channels/time"
-
+import { TimeChannel, LightningChannel, VJEffectChannel, ScoreBoardChannel, CloudChannel, CustomChannel } from "./channels/exports";
+export * from "./channels/exports"
+export * from "./divoom_raw"
+export { DivoomConst } from "./types";
 
 export class DivoomTimeBoxEvo {
   constructor(type?: string, opts?: any) {
@@ -21,6 +21,15 @@ export class DivoomTimeBoxEvo {
         return new TimeChannel(opts);
       case "lightning":
         return new LightningChannel(opts);
+      case "vj-effect":
+      case "vjeffect":
+        return new VJEffectChannel(opts);
+      case "scoreboard":
+        return new ScoreBoardChannel(opts);
+      case "cloud":
+        return new CloudChannel;
+      case "custom":
+        return new CustomChannel;
       case "raw":
         return new DivoomTimeBoxRAW;
       default:
@@ -38,52 +47,6 @@ export class DivoomTimeBoxEvoProtocol {
 
   private _queueMessage(msg: DivoomMessage): void {
     this._messages.push(msg);
-  }
-
-  /**
-   * Generates the appropriate message to display the Cloud Channel
-   */
-  public displayCloudPackage() {
-    this._messages = DivoomMessages.create();
-    this._queueMessage(
-      new DivoomMessage("4502")
-    );
-  }
-
-  /**
-   * Generates the appropriate message to display the VJ Effects Channel
-   * @param type type of Effect to display
-   */
-  public displayVJEffectsPackage(type: number = 0) {
-    this._messages = DivoomMessages.create();
-    const PACKAGE_PREFIX = "4503";
-
-    this._queueMessage(
-      new DivoomMessage(
-        PACKAGE_PREFIX
-        + number2HexString(type)
-      )
-    );
-  }
-
-  /**
-   * Generates the appropriate message to display the scoreboard
-   * @param red the score for the red player (0 - 999)
-   * @param blue the score for the blue player (0 - 999)
-   */
-  public displayScoreBoardPackage(red: number = 0, blue: number = 0) {
-    this._messages = DivoomMessages.create();
-    const PACKAGE_PREFIX = "450600";
-
-    red = Math.min(999, Math.max(0, red));
-    blue = Math.min(999, Math.max(0, blue));
-    this._queueMessage(
-      new DivoomMessage(
-        PACKAGE_PREFIX
-        + int2hexlittle(red)
-        + int2hexlittle(blue)
-      )
-    );
   }
 
   /**

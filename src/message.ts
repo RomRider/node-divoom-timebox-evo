@@ -1,8 +1,8 @@
-import { int2hexlittle } from "./utils";
+import { int2hexlittle, unhexlify } from "./utils";
 
 export class DivoomMessage {
-  private START = "01";
-  private END = "02";
+  private _START = "01";
+  private _END = "02";
   private _message: string | undefined;
 
   constructor(msg: string = '') {
@@ -42,10 +42,13 @@ export class DivoomMessage {
   get payload(): string {
     return this._message;
   }
+  set payload(payload: string) {
+    this._message = payload;
+  }
 
   get message(): string | undefined {
     if (!this._message) return undefined;
-    return this.START + this.lengthHS + this._message + this.crcHS + this.END
+    return this._START + this.lengthHS + this._message + this.crcHS + this._END
   }
 
   public append(msg: string): DivoomMessage {
@@ -64,5 +67,13 @@ export class DivoomMessage {
 
   public toString(): string | undefined {
     return this.message;
+  }
+
+  public asBinaryBuffer() {
+    let bufferArray: Buffer[] = [];
+    this.message.match(/.{1,1332}/g).forEach((part) => {
+      bufferArray.push(Buffer.from(unhexlify(part), 'binary'));
+    })
+    return bufferArray;
   }
 }

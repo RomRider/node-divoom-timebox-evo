@@ -1,4 +1,4 @@
-import { TinyColor } from "@ctrl/tinycolor";
+import { TinyColor, ColorInput } from "@ctrl/tinycolor";
 
 export function unhexlify(str: string) {
   var result = '';
@@ -36,8 +36,8 @@ export function boolean2HexString(bool: boolean): string {
   return bool ? "01" : "00";
 }
 
-export function color2HexString(color: TinyColor): string {
-  return color.toHex();
+export function color2HexString(color: ColorInput): string {
+  return new TinyColor(color).toHex();
 }
 
 export function brightness2HexString(brightness: number): string {

@@ -1,6 +1,4 @@
 import { DivoomMessage } from "./message";
-import { unhexlify } from "./utils";
-
 
 export class DivoomMessages extends Array<DivoomMessage> {
   private constructor(items?: Array<DivoomMessage>) {
@@ -13,9 +11,7 @@ export class DivoomMessages extends Array<DivoomMessage> {
   public asBinaryBuffer(): Buffer[] {
     let bufferArray: Buffer[] = [];
     this.forEach((slice) => {
-      slice.message.match(/.{1,1332}/g).forEach((part) => {
-        bufferArray.push(Buffer.from(unhexlify(part), 'binary'));
-      })
+      bufferArray = bufferArray.concat(slice.asBinaryBuffer());
     })
     return bufferArray;
   }
