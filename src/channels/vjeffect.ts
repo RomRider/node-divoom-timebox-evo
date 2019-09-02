@@ -1,8 +1,9 @@
 import { DivoomTimeBoxRAW } from "../divoom_raw";
 import { number2HexString } from "../utils";
+import { VJEffectType } from "../types";
 
 interface VJEffectOptions {
-  type?: number,
+  type?: VJEffectType,
 }
 
 export class VJEffectChannel extends DivoomTimeBoxRAW {

@@ -39,10 +39,12 @@ export enum VJEffectType {
   RainbowPolygons,
   PinkBlueWave,
   RainbowCross,
+  RainbowShapes
 }
 
 export const DivoomConst = {
   TimeType: TimeDisplayType,
   LightningType: LightningType,
   WeatherType: WeatherType,
+  VJEffectType: VJEffectType,
 }
