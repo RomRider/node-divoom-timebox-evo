@@ -78,41 +78,6 @@ export class DivoomTimeBoxEvoProtocol {
   }
 
   /**
-   * Generates the appropiate message to set the brightness on the Timebox
-   * @param brightness brightness (`0 - 100`) if `in_min` or `in_max` are undefined, else `in_min <= brightness <= in_max`
-   * @param in_min
-   * @param in_max
-   */
-  public setBrightness(
-    brightness: number,
-    in_min?: number,
-    in_max?: number,
-  ) {
-    this._messages = DivoomMessages.create();
-    const PACKAGE_PREFIX = "74"
-
-    function map(x: number, in_min: number, in_max: number, out_min: number, out_max: number) {
-      if (x < in_min || x > in_max) {
-        throw new Error('map() in_min is < value or in_max > value')
-      }
-      return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-    }
-    let briInRange = brightness;
-    if (in_min !== undefined && in_max !== undefined) {
-      briInRange = Math.ceil(map(brightness, in_min, in_max, 0, 100));
-    }
-    if ((brightness > 100 || brightness < 0) && (in_min === undefined || in_max === undefined)) {
-      throw new Error('Brightness should be between 0 and 100 or in_min and in_max should be defined');
-    }
-    this._queueMessage(
-      new DivoomMessage(
-        PACKAGE_PREFIX
-        + number2HexString(briInRange)
-      )
-    );
-  }
-
-  /**
    * Generates the full message, properly split which will be ready to be send to Divoom
    * @param msg the string or Buffer that you want to encode before sending to Divoom
    */
