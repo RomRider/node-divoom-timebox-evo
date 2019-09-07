@@ -202,4 +202,11 @@ export class DisplayText extends TimeboxEvoRequest {
   get frame(): number {
     return this._animFrame;
   }
+  set text(text: string) {
+    this._opts.text = text;
+    this._updateMessage();
+  }
+  get text(): string {
+    return this._opts.text;
+  }
 }
