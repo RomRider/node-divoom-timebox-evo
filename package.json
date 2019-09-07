@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RomRider/divoom-timebox-evo.git"
+    "url": "git+https://github.com/RomRider/node-divoom-timebox-evo.git"
   },
   "keywords": [
     "divoom",
@@ -41,9 +41,9 @@
   "author": "Jérôme Wiedemann",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/RomRider/divoom-timebox-evo/issues"
+    "url": "https://github.com/RomRider/node-divoom-timebox-evo/issues"
   },
-  "homepage": "https://github.com/RomRider/divoom-timebox-evo#readme",
+  "homepage": "https://github.com/RomRider/node-divoom-timebox-evo#readme",
   "devDependencies": {
     "@types/chai": "^4.2.0",
     "@types/chai-as-promised": "^7.1.2",
