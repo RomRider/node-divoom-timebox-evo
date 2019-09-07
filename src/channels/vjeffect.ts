@@ -1,4 +1,4 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 import { number2HexString } from "../utils";
 import { VJEffectType } from "../types";
 
@@ -6,7 +6,7 @@ interface VJEffectOptions {
   type?: VJEffectType,
 }
 
-export class VJEffectChannel extends DivoomTimeBoxRAW {
+export class VJEffectChannel extends TimeboxEvoRequest {
   private _opts: VJEffectOptions = {
     type: 0,
   }

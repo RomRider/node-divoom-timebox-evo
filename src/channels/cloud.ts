@@ -1,6 +1,6 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 
-export class CloudChannel extends DivoomTimeBoxRAW {
+export class CloudChannel extends TimeboxEvoRequest {
   /**
    * Generates the appropriate message to display the Cloud Channel
    */

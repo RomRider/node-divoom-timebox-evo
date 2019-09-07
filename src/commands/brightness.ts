@@ -1,4 +1,4 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 import { number2HexString } from "../utils";
 
 interface BrightnessOpts {
@@ -7,7 +7,7 @@ interface BrightnessOpts {
   in_max?: number
 }
 
-export class BrightnessCommand extends DivoomTimeBoxRAW {
+export class BrightnessCommand extends TimeboxEvoRequest {
   private _opts: BrightnessOpts = {
     brightness: 100,
     in_min: 0,

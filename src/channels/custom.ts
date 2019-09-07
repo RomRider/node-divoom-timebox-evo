@@ -1,7 +1,7 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 
 
-export class CustomChannel extends DivoomTimeBoxRAW {
+export class CustomChannel extends TimeboxEvoRequest {
   private _PACKAGE_HEADER = "4505";
 
   constructor() {

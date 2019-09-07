@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import { DivoomMessage } from '../src/message'
+import { TimeboxEvoMessage } from '../../src/messages/message'
 import 'mocha';
 
-describe('DivoomMessage class', () => {
+describe('TimeboxEvoMessage class', () => {
   const MESSAGE1 = "4500010001000100ff00ff";
-  let m = new DivoomMessage(MESSAGE1);
+  let m = new TimeboxEvoMessage(MESSAGE1);
 
   it('should have the proper length', () => {
     expect(m.length).to.equal(13);
@@ -29,7 +29,7 @@ describe('DivoomMessage class', () => {
   })
 
   it('should set the message to lowercase', () => {
-    let m = new DivoomMessage("AA");
+    let m = new TimeboxEvoMessage("AA");
     expect(m.payload).to.equal("aa");
   })
 
@@ -49,7 +49,7 @@ describe('DivoomMessage class', () => {
   })
 
   it('should return undefined when no message is defined', () => {
-    let m = new DivoomMessage;
+    let m = new TimeboxEvoMessage;
     expect(m.crc).to.be.undefined;
     expect(m.crcHS).to.be.undefined;
     expect(m.message).to.be.undefined;
@@ -58,7 +58,7 @@ describe('DivoomMessage class', () => {
     expect(m.lengthHS).to.be.undefined;
   })
   it('should set the proper payload', () => {
-    let m = new DivoomMessage;
+    let m = new TimeboxEvoMessage;
     m.payload = '4500010001000100ff00ff';
     const shouldBe = "010d004500010001000100ff00ff530202";
     const is = m.message;

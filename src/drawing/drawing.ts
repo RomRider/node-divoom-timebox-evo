@@ -1,4 +1,4 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 import fs from "fs";
 import fileType from "file-type";
 import Jimp from 'jimp';
@@ -6,7 +6,7 @@ import gifWrap from 'gifwrap';
 import { JimpArray, DivoomJimpStatic, DivoomJimpAnim } from "./jimp_overloads";
 
 
-export class DisplayAnimation extends DivoomTimeBoxRAW {
+export class DisplayAnimation extends TimeboxEvoRequest {
   public async read(input: string | Buffer): Promise<JimpArray> {
     let buffer: Buffer;
     if (Buffer.isBuffer(input)) {

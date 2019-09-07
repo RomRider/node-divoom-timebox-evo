@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import 'mocha';
 import { TimeChannel } from '../../src/index';
-import { DivoomConst } from '../../src/types';
+import { TIMEBOX_CONST } from '../../src/types';
 
 describe('Time Channel', () => {
 
@@ -59,8 +59,8 @@ describe('Time Channel', () => {
   describe('getter and setters', () => {
     let d = new TimeChannel({ color: '#123456' });
     it('should update the type correctly', () => {
-      d.type = DivoomConst.TimeType.AnalogRound;
-      expect(d.type).to.equal(DivoomConst.TimeType.AnalogRound);
+      d.type = TIMEBOX_CONST.TimeType.AnalogRound;
+      expect(d.type).to.equal(TIMEBOX_CONST.TimeType.AnalogRound);
       expect(d.messages[0].message.slice(12, 14)).to.equal('05');
     })
     it('should update the color correctly', () => {

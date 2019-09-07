@@ -1,7 +1,7 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 import { number2HexString, int2hexlittle } from "../utils";
 import { ColorInput, TinyColor } from "@ctrl/tinycolor";
-import { DivoomMessage } from "../message";
+import { TimeboxEvoMessage } from "../messages/message";
 
 interface DisplayTextOpts {
   text?: string,
@@ -9,7 +9,7 @@ interface DisplayTextOpts {
   animFn?: Function
 }
 
-export class DisplayText extends DivoomTimeBoxRAW {
+export class DisplayText extends TimeboxEvoRequest {
   private _animFrame = 0;
   private _opts: DisplayTextOpts = {
     text: "node-divoom-timebox-evo",
@@ -28,8 +28,76 @@ export class DisplayText extends DivoomTimeBoxRAW {
     return palette;
   }
 
+  public PALETTE_BLACK_ON_CMY_RAINBOW() {
+    let palette: string[] = [];
+    let r = 255, g = 0, b = 255;
+    for (let i = 0; i < 254; i += 2) {
+      palette.push(number2HexString(r) + number2HexString(g) + number2HexString(b));
+      if (i < 85) {
+        b = Math.max(0, b - 6);
+        g = Math.min(255, g + 6)
+      } else if (i < 170) {
+        b = Math.min(255, b + 6);
+        r = Math.max(0, r - 6)
+      } else {
+        r = Math.min(255, r + 6)
+        g = Math.max(0, g - 6)
+      }
+    }
+    for (let i = palette.length; i < 256; i++) {
+      palette.push("000000");
+    }
+    return palette;
+  }
+
+  public PALETTE_BLACK_ON_RAINBOW() {
+    let palette: string[] = [];
+    const size = 127;
+    function sin_to_hex(i: number, phase: number) {
+      let sin = Math.sin(Math.PI / size * 2 * i + phase);
+      let int = Math.floor(sin * 127) + 128;
+      return number2HexString(int);
+    }
+
+    for (let i = 0; i < size; i++) {
+      let red = sin_to_hex(i, 0 * Math.PI * 2 / 3); // 0   deg
+      let blue = sin_to_hex(i, 1 * Math.PI * 2 / 3); // 120 deg
+      let green = sin_to_hex(i, 2 * Math.PI * 2 / 3); // 240 deg
+      palette.push(red + green + blue);
+    }
+
+    for (let i = palette.length; i < 256; i++) {
+      palette.push("000000");
+    }
+    return palette;
+  }
+
   public ANIM_STATIC_BACKGROUND(i?: number): number[] {
     return Array.from({ length: 256 }).fill(0) as number[];
+  }
+
+  public ANIM_UNI_GRADIANT_BACKGROUND(i: number): number[] {
+    return Array.from({ length: 256 }).fill(i % 127) as number[];
+  }
+
+  public ANIM_HORIZONTAL_GRADIANT_BACKGROUND(frame: number): number[] {
+    let pixelArray = [];
+    for (let y = 0; y < 16; y++) {
+      for (let x = 0; x < 16; x++) {
+        pixelArray.push((x + frame) % 127)
+      }
+    }
+    return pixelArray;
+  }
+
+  public ANIM_VERTICAL_GRADIANT_BACKGROUND(frame: number): number[] {
+    let pixelArray = [];
+    for (let y = 0; y < 16; y++) {
+      for (let x = 0; x < 16; x++) {
+        pixelArray.push((y + frame) % 127)
+      }
+    }
+    return pixelArray;
   }
 
   constructor(opts?: DisplayTextOpts) {
@@ -58,17 +126,23 @@ export class DisplayText extends DivoomTimeBoxRAW {
     this.push(this._encodeText(this._opts.text));
 
     const PALETTE_HEADER = "6c00000704aa070446000000";
-    const PALETTE_TRAILER = "00".repeat(256);
-    let palette: string[] = this.colorPalette;
+    let pixels = '';
+    const palette: string[] = this.colorPalette;
+
+    this._opts.animFn(this._animFrame).forEach((pixel: number) => {
+      pixels += number2HexString(pixel);
+    });
+    this._animFrame++;
 
     this.push(
       PALETTE_HEADER
       + palette.join("")
-      + PALETTE_TRAILER
+      + pixels
     );
+    this.push(this.getNextAnimationFrame().payload);
   }
 
-  public getNextAnimationFrame(): DivoomMessage {
+  public getNextAnimationFrame(): TimeboxEvoMessage {
     let pixelArray: number[] = this._opts.animFn(this._animFrame);
     if (pixelArray.length !== 256) throw new Error('The animFn should always generate a 256 pixel array')
 
@@ -83,7 +157,7 @@ export class DisplayText extends DivoomTimeBoxRAW {
       + "0701aa070143000100"
       + pixelString
     this._animFrame = ++this._animFrame % 65536;
-    return new DivoomMessage(animString)
+    return new TimeboxEvoMessage(animString)
   }
 
   get paletteFn(): Function {

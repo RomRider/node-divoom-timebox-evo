@@ -1,3 +1,14 @@
+import {
+  TimeChannel,
+  LightningChannel,
+  VJEffectChannel,
+  ScoreBoardChannel,
+  CloudChannel,
+  CustomChannel
+} from "./channels/exports";
+import { DisplayAnimation, DisplayText } from "./drawing/exports"
+import { BrightnessCommand, TempWeatherCommand } from "./commands/exports"
+
 export enum TimeDisplayType {
   FullScreen,
   Rainbow,
@@ -42,9 +53,21 @@ export enum VJEffectType {
   RainbowShapes
 }
 
-export const DivoomConst = {
+export const TIMEBOX_CONST = {
   TimeType: TimeDisplayType,
   LightningType: LightningType,
   WeatherType: WeatherType,
   VJEffectType: VJEffectType,
 }
+
+export type RequestTypes =
+  CloudChannel
+  | CustomChannel
+  | LightningChannel
+  | ScoreBoardChannel
+  | TimeChannel
+  | VJEffectChannel
+  | DisplayAnimation
+  | DisplayText
+  | BrightnessCommand
+  | TempWeatherCommand

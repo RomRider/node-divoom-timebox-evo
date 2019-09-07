@@ -1,16 +1,16 @@
 import { expect } from 'chai';
 import 'mocha';
 import { LightningChannel } from "../../src/channels/lightning"
-import { DivoomConst } from '../../src/types';
+import { TIMEBOX_CONST } from '../../src/types';
 
-describe('New instance', () => {
-  describe('Properties', () => {
+describe('Lightning Channel', () => {
+  describe('New instance', () => {
     it('should work with default properties', () => {
       const d = new LightningChannel;
       expect(d.messages[0].message).to.equal("010d004501ffffff640001000000b50302")
     })
     it('should set the type correctly', () => {
-      const d = new LightningChannel({ type: DivoomConst.LightningType.NoMosquitto });
+      const d = new LightningChannel({ type: TIMEBOX_CONST.LightningType.NoMosquitto });
       expect(d.messages[0].message!.slice(18, 20)).to.equal('03');
     });
 
@@ -47,8 +47,8 @@ describe('New instance', () => {
   describe('getter and setters', () => {
     let d = new LightningChannel({ color: '#123456' });
     it('should update the type correctly', () => {
-      d.type = DivoomConst.LightningType.Plants;
-      expect(d.type).to.equal(DivoomConst.LightningType.Plants);
+      d.type = TIMEBOX_CONST.LightningType.Plants;
+      expect(d.type).to.equal(TIMEBOX_CONST.LightningType.Plants);
       expect(d.messages[0].message!.slice(18, 20)).to.equal('02');
     })
     it('should update the color correctly', () => {

@@ -1,4 +1,4 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 import { int2hexlittle } from "../utils";
 
 interface ScoreBoardOptions {
@@ -6,7 +6,7 @@ interface ScoreBoardOptions {
   blue?: number,
 }
 
-export class ScoreBoardChannel extends DivoomTimeBoxRAW {
+export class ScoreBoardChannel extends TimeboxEvoRequest {
   private _opts: ScoreBoardOptions = {
     red: 0,
     blue: 0,

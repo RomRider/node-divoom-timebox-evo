@@ -1,4 +1,4 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 import { LightningType } from "../types";
 import { ColorInput, TinyColor } from "@ctrl/tinycolor";
 import { color2HexString, brightness2HexString, number2HexString, boolean2HexString } from "../utils";
@@ -10,7 +10,7 @@ interface LightningOpts {
   power?: boolean,
 }
 
-export class LightningChannel extends DivoomTimeBoxRAW {
+export class LightningChannel extends TimeboxEvoRequest {
   private _opts: LightningOpts = {
     type: LightningType.PlainColor,
     brightness: 100,

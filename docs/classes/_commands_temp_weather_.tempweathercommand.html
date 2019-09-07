@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CloudChannel | node-divoom-timebox-evo</title>
+	<title>TempWeatherCommand | node-divoom-timebox-evo</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_channels_cloud_.html">&quot;channels/cloud&quot;</a>
+					<a href="../modules/_commands_temp_weather_.html">&quot;commands/temp_weather&quot;</a>
 				</li>
 				<li>
-					<a href="_channels_cloud_.cloudchannel.html">CloudChannel</a>
+					<a href="_commands_temp_weather_.tempweathercommand.html">TempWeatherCommand</a>
 				</li>
 			</ul>
-			<h1>Class CloudChannel</h1>
+			<h1>Class TempWeatherCommand</h1>
 		</div>
 	</div>
 </header>
@@ -76,7 +76,7 @@
 						<a href="_requests_.timeboxevorequest.html" class="tsd-signature-type">TimeboxEvoRequest</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">CloudChannel</span>
+								<span class="target">TempWeatherCommand</span>
 							</li>
 						</ul>
 					</li>
@@ -89,20 +89,35 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_channels_cloud_.cloudchannel.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_commands_temp_weather_.tempweathercommand.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_commands_temp_weather_.tempweathercommand.html#_package_prefix" class="tsd-kind-icon">_PACKAGE_<wbr>PREFIX</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_channels_cloud_.cloudchannel.html#messages" class="tsd-kind-icon">messages</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_commands_temp_weather_.tempweathercommand.html#messages" class="tsd-kind-icon">messages</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_commands_temp_weather_.tempweathercommand.html#temperature" class="tsd-kind-icon">temperature</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_commands_temp_weather_.tempweathercommand.html#weather" class="tsd-kind-icon">weather</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_channels_cloud_.cloudchannel.html#clear" class="tsd-kind-icon">clear</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_channels_cloud_.cloudchannel.html#push" class="tsd-kind-icon">push</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_commands_temp_weather_.tempweathercommand.html#_updatemessage" class="tsd-kind-icon">_update<wbr>Message</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_commands_temp_weather_.tempweathercommand.html#clear" class="tsd-kind-icon">clear</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_commands_temp_weather_.tempweathercommand.html#push" class="tsd-kind-icon">push</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-private"><a href="_commands_temp_weather_.tempweathercommand.html#_opts" class="tsd-kind-icon">_opts</a></li>
 							</ul>
 						</section>
 					</div>
@@ -114,26 +129,40 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Cloud<wbr>Channel<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_channels_cloud_.cloudchannel.html" class="tsd-signature-type">CloudChannel</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Temp<wbr>Weather<wbr>Command<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_commands_temp_weather_.tempweatheropts.html" class="tsd-signature-type">TempWeatherOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_commands_temp_weather_.tempweathercommand.html" class="tsd-signature-type">TempWeatherCommand</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/channels/cloud.ts#L3">channels/cloud.ts:3</a></li>
+									<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L15">commands/temp_weather.ts:15</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Generates the appropriate message to display the Cloud Channel</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_channels_cloud_.cloudchannel.html" class="tsd-signature-type">CloudChannel</a></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> opts: <a href="../interfaces/_commands_temp_weather_.tempweatheropts.html" class="tsd-signature-type">TempWeatherOpts</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_commands_temp_weather_.tempweathercommand.html" class="tsd-signature-type">TempWeatherCommand</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_package_prefix" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _PACKAGE_<wbr>PREFIX</h3>
+					<div class="tsd-signature tsd-kind-icon">_PACKAGE_<wbr>PREFIX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;5F&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L11">commands/temp_weather.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="messages" class="tsd-anchor"></a>
@@ -153,9 +182,90 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="temperature" class="tsd-anchor"></a>
+					<h3>temperature</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> temperature<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> temperature<span class="tsd-signature-symbol">(</span>temp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L31">commands/temp_weather.ts:31</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L24">commands/temp_weather.ts:24</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>temp: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="weather" class="tsd-anchor"></a>
+					<h3>weather</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> weather<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/_types_.weathertype.html" class="tsd-signature-type">WeatherType</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> weather<span class="tsd-signature-symbol">(</span>weather<span class="tsd-signature-symbol">: </span><a href="../enums/_types_.weathertype.html" class="tsd-signature-type">WeatherType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L39">commands/temp_weather.ts:39</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/_types_.weathertype.html" class="tsd-signature-type">WeatherType</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L35">commands/temp_weather.ts:35</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>weather: <a href="../enums/_types_.weathertype.html" class="tsd-signature-type">WeatherType</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_updatemessage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _update<wbr>Message</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_update<wbr>Message<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L43">commands/temp_weather.ts:43</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="clear" class="tsd-anchor"></a>
 					<h3>clear</h3>
@@ -199,6 +309,39 @@
 					</ul>
 				</section>
 			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
+					<a name="_opts" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _opts</h3>
+					<div class="tsd-signature tsd-kind-icon">_opts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L12">commands/temp_weather.ts:12</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="_opts.temperature-1" class="tsd-anchor"></a>
+						<h3>temperature</h3>
+						<div class="tsd-signature tsd-kind-icon">temperature<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L13">commands/temp_weather.ts:13</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="_opts.weather-1" class="tsd-anchor"></a>
+						<h3>weather</h3>
+						<div class="tsd-signature tsd-kind-icon">weather<span class="tsd-signature-symbol">:</span> <a href="../enums/_types_.weathertype.html#clear" class="tsd-signature-type">Clear</a><span class="tsd-signature-symbol"> =&nbsp;TIMEBOX_CONST.WeatherType.Clear</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/RomRider/divoom-timebox-evo/blob/cc759be/src/commands/temp_weather.ts#L14">commands/temp_weather.ts:14</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
@@ -206,7 +349,7 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_channels_cloud_.html">"channels/cloud"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -233,7 +376,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_commands_exports_.html">"commands/exports"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_commands_temp_weather_.html">"commands/temp_<wbr>weather"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -273,24 +416,42 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_channels_cloud_.cloudchannel.html" class="tsd-kind-icon">Cloud<wbr>Channel</a>
+						<a href="_commands_temp_weather_.tempweathercommand.html" class="tsd-kind-icon">Temp<wbr>Weather<wbr>Command</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_channels_cloud_.cloudchannel.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_commands_temp_weather_.tempweathercommand.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_commands_temp_weather_.tempweathercommand.html#_package_prefix" class="tsd-kind-icon">_PACKAGE_<wbr>PREFIX</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_channels_cloud_.cloudchannel.html#messages" class="tsd-kind-icon">messages</a>
+								<a href="_commands_temp_weather_.tempweathercommand.html#messages" class="tsd-kind-icon">messages</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="_commands_temp_weather_.tempweathercommand.html#temperature" class="tsd-kind-icon">temperature</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="_commands_temp_weather_.tempweathercommand.html#weather" class="tsd-kind-icon">weather</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_commands_temp_weather_.tempweathercommand.html#_updatemessage" class="tsd-kind-icon">_update<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_channels_cloud_.cloudchannel.html#clear" class="tsd-kind-icon">clear</a>
+								<a href="_commands_temp_weather_.tempweathercommand.html#clear" class="tsd-kind-icon">clear</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_channels_cloud_.cloudchannel.html#push" class="tsd-kind-icon">push</a>
+								<a href="_commands_temp_weather_.tempweathercommand.html#push" class="tsd-kind-icon">push</a>
+							</li>
+							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
+								<a href="_commands_temp_weather_.tempweathercommand.html#_opts" class="tsd-kind-icon">_opts</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../interfaces/_commands_temp_weather_.tempweatheropts.html" class="tsd-kind-icon">Temp<wbr>Weather<wbr>Opts</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

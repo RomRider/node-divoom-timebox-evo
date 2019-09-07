@@ -1,8 +1,7 @@
-import { DivoomMessages } from "../message_array";
+import { TimeboxEvoMessageArray } from "../messages/message_array";
 import { int2hexlittle, number2HexString } from "../utils";
-import { DivoomMessage } from "../message";
+import { TimeboxEvoMessage } from "../messages/message";
 import Jimp from 'jimp';
-import gifWrap from 'gifwrap';
 
 
 export class JimpArray extends Array<DivoomJimpAnim | DivoomJimpStatic> {
@@ -13,9 +12,9 @@ export class JimpArray extends Array<DivoomJimpAnim | DivoomJimpStatic> {
     return Object.create(JimpArray.prototype);
   }
 
-  private _animAsDivoomMessages(): DivoomMessages {
+  private _animAsDivoomMessages(): TimeboxEvoMessageArray {
     const _PACKAGE_PREFIX = '49';
-    let dms = DivoomMessages.create();
+    let dms = TimeboxEvoMessageArray.create();
     let fullString = '';
     let totalSize = 0;
     this.forEach(image => {
@@ -26,7 +25,7 @@ export class JimpArray extends Array<DivoomJimpAnim | DivoomJimpStatic> {
     let messageCounter = 0;
     const totalSizeHex = int2hexlittle(totalSize);
     fullString.match(/.{1,400}/g).forEach((message) => {
-      dms.push(new DivoomMessage(
+      dms.push(new TimeboxEvoMessage(
         _PACKAGE_PREFIX
         + totalSizeHex
         + number2HexString(messageCounter)
@@ -37,16 +36,16 @@ export class JimpArray extends Array<DivoomJimpAnim | DivoomJimpStatic> {
     return dms;
   }
 
-  private _staticAsDivoomMessages(): DivoomMessages {
+  private _staticAsDivoomMessages(): TimeboxEvoMessageArray {
     const PACKAGE_PREFIX = '44000A0A04';
-    let dms = DivoomMessages.create();
+    let dms = TimeboxEvoMessageArray.create();
     dms.push(
       this[0].asDivoomMessage().prepend(PACKAGE_PREFIX)
     )
     return dms;
   }
 
-  public asDivoomMessages(): DivoomMessages {
+  public asDivoomMessages(): TimeboxEvoMessageArray {
     if (this[0]) {
       if (this[0] instanceof DivoomJimpAnim) {
         return this._animAsDivoomMessages();
@@ -54,7 +53,7 @@ export class JimpArray extends Array<DivoomJimpAnim | DivoomJimpStatic> {
         return this._staticAsDivoomMessages();
       }
     } else {
-      return DivoomMessages.create();
+      return TimeboxEvoMessageArray.create();
     }
   }
 
@@ -141,7 +140,7 @@ export class DivoomJimpAnim extends DivoomJimp {
     return this._delay;
   }
 
-  public asDivoomMessage(): DivoomMessage {
+  public asDivoomMessage(): TimeboxEvoMessage {
     let resetPalette = true
     let colorsAndPixels = this.getColorsAndPixels();
 
@@ -161,12 +160,12 @@ export class DivoomJimpAnim extends DivoomJimp {
       'aa' +
       sizeHex +
       stringWithoutHeader;
-    return new DivoomMessage(fullString);
+    return new TimeboxEvoMessage(fullString);
   }
 }
 
 export class DivoomJimpStatic extends DivoomJimp {
-  public asDivoomMessage(): DivoomMessage {
+  public asDivoomMessage(): TimeboxEvoMessage {
     let colorsAndPixels = this.getColorsAndPixels();
 
     const nbColorsHex = number2HexString(colorsAndPixels.colors.length % 256);
@@ -183,6 +182,6 @@ export class DivoomJimpStatic extends DivoomJimp {
       + sizeHex
       + '000000'
       + stringWithoutHeader;
-    return new DivoomMessage(fullString);
+    return new TimeboxEvoMessage(fullString);
   }
 }

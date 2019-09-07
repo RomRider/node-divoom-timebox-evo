@@ -1,6 +1,6 @@
-import { int2hexlittle, unhexlify } from "./utils";
+import { int2hexlittle, unhexlify } from "../utils";
 
-export class DivoomMessage {
+export class TimeboxEvoMessage {
   private _START = "01";
   private _END = "02";
   private _message: string | undefined;
@@ -51,14 +51,14 @@ export class DivoomMessage {
     return this._START + this.lengthHS + this._message + this.crcHS + this._END
   }
 
-  public append(msg: string): DivoomMessage {
+  public append(msg: string): TimeboxEvoMessage {
     if (msg) {
       this._message = this._message ? this._message + msg.toLowerCase() : msg.toLowerCase();
     }
     return this;
   }
 
-  public prepend(msg: string): DivoomMessage {
+  public prepend(msg: string): TimeboxEvoMessage {
     if (msg) {
       this._message = this._message ? msg.toLowerCase() + this._message : msg.toLowerCase();
     }

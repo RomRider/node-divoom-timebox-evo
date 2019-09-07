@@ -1,4 +1,4 @@
-import { DivoomTimeBoxRAW } from "../divoom_raw";
+import { TimeboxEvoRequest } from "../requests";
 import { TimeDisplayType } from "../types";
 import { TinyColor, ColorInput } from "@ctrl/tinycolor";
 import { number2HexString, boolean2HexString, color2HexString } from "../utils";
@@ -12,7 +12,7 @@ interface TimeOptions {
   showCalendar?: boolean,
 }
 
-export class TimeChannel extends DivoomTimeBoxRAW {
+export class TimeChannel extends TimeboxEvoRequest {
   private _opts: TimeOptions = {
     type: TimeDisplayType.FullScreen,
     showTime: true,
