@@ -1,15 +1,22 @@
 import { TimeboxEvoRequest } from "../requests";
 import { TimeDisplayType } from "../types";
 import { TinyColor, ColorInput } from "@ctrl/tinycolor";
-import { number2HexString, boolean2HexString, color2HexString } from "../utils";
+import {
+  number2HexString,
+  boolean2HexString,
+  color2HexString
+} from "../helpers/utils";
 
+/**
+ * Options for the [[TimeChannel]]
+ */
 interface TimeOptions {
-  type?: TimeDisplayType,
-  color?: ColorInput,
-  showTime?: boolean,
-  showWeather?: boolean,
-  showTemp?: boolean,
-  showCalendar?: boolean,
+  type?: TimeDisplayType;
+  color?: ColorInput;
+  showTime?: boolean;
+  showWeather?: boolean;
+  showTemp?: boolean;
+  showCalendar?: boolean;
 }
 
 export class TimeChannel extends TimeboxEvoRequest {
@@ -18,29 +25,36 @@ export class TimeChannel extends TimeboxEvoRequest {
     showTime: true,
     showWeather: false,
     showTemp: false,
-    showCalendar: false,
-  }
+    showCalendar: false
+  };
   private _color: string;
-  private _PACKAGE_PREFIX = "450001"
-
+  private _PACKAGE_PREFIX = "450001";
+  /**
+   * Generates the appropriate message to display the Time Channel on the Divoom Timebox Evo
+   * @param opts the time options
+   */
   constructor(opts?: TimeOptions) {
     super();
-    this.color = opts && opts.color ? new TinyColor(opts.color) : new TinyColor("FFFFFF");
-    this._opts = { ...this._opts, ...opts }
+    this.color =
+      opts && opts.color ? new TinyColor(opts.color) : new TinyColor("FFFFFF");
+    this._opts = { ...this._opts, ...opts };
     this._updateMessage();
   }
 
+  /**
+   * Updates the message queue based on the parameters used
+   */
   private _updateMessage() {
     this.clear();
     this.push(
-      this._PACKAGE_PREFIX
-      + number2HexString(this._opts.type)
-      + boolean2HexString(this._opts.showTime)
-      + boolean2HexString(this._opts.showWeather)
-      + boolean2HexString(this._opts.showTemp)
-      + boolean2HexString(this._opts.showCalendar)
-      + color2HexString(this._color)
-    )
+      this._PACKAGE_PREFIX +
+        number2HexString(this._opts.type) +
+        boolean2HexString(this._opts.showTime) +
+        boolean2HexString(this._opts.showWeather) +
+        boolean2HexString(this._opts.showTemp) +
+        boolean2HexString(this._opts.showCalendar) +
+        color2HexString(this._color)
+    );
   }
 
   set type(type: TimeDisplayType) {
@@ -53,7 +67,8 @@ export class TimeChannel extends TimeboxEvoRequest {
 
   set color(color: ColorInput) {
     const localcolor = new TinyColor(color);
-    if (!localcolor.isValid) throw new Error(`Provided color ${localcolor} is not valid`)
+    if (!localcolor.isValid)
+      throw new Error(`Provided color ${localcolor} is not valid`);
     this._color = localcolor.toHex();
     this._updateMessage();
   }

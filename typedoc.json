@@ -1,0 +1,12 @@
+{
+  "mode": "file",
+  "target": "ES6",
+  "moduleResolution": "node",
+  "exclude": ["**/exports.ts", "**/node_modules/**"],
+  "externalPattern": "**/node_modules/**",
+  "module": "es6",
+  "readme": "none",
+  "preserveConstEnums": true,
+  "stripInternal": true,
+  "excludeExternals": true
+}

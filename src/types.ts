@@ -6,9 +6,12 @@ import {
   CloudChannel,
   CustomChannel
 } from "./channels/exports";
-import { DisplayAnimation, DisplayText } from "./drawing/exports"
-import { BrightnessCommand, TempWeatherCommand } from "./commands/exports"
+import { DisplayAnimation, DisplayText } from "./drawing/exports";
+import { BrightnessCommand, TempWeatherCommand } from "./commands/exports";
 
+/**
+ * Type for the TimeChannel
+ */
 export enum TimeDisplayType {
   FullScreen,
   Rainbow,
@@ -18,6 +21,9 @@ export enum TimeDisplayType {
   AnalogRound
 }
 
+/**
+ * Type for the LightningChannel
+ */
 export enum LightningType {
   PlainColor,
   Love,
@@ -25,6 +31,10 @@ export enum LightningType {
   NoMosquitto,
   Sleeping
 }
+
+/**
+ * Type of weather for the [[TempWeatherCommand]]
+ */
 export enum WeatherType {
   Clear = 1,
   CloudySky = 3,
@@ -34,6 +44,9 @@ export enum WeatherType {
   Fog = 9
 }
 
+/**
+ * Type of the VJEffect channel
+ */
 export enum VJEffectType {
   Sparkles = 0,
   Lava,
@@ -53,15 +66,18 @@ export enum VJEffectType {
   RainbowShapes
 }
 
+/**
+ * Exports the constants for the different channels
+ */
 export const TIMEBOX_CONST = {
   TimeType: TimeDisplayType,
   LightningType: LightningType,
   WeatherType: WeatherType,
-  VJEffectType: VJEffectType,
-}
+  VJEffectType: VJEffectType
+};
 
 export type RequestTypes =
-  CloudChannel
+  | CloudChannel
   | CustomChannel
   | LightningChannel
   | ScoreBoardChannel
@@ -70,4 +86,4 @@ export type RequestTypes =
   | DisplayAnimation
   | DisplayText
   | BrightnessCommand
-  | TempWeatherCommand
+  | TempWeatherCommand;

@@ -1,5 +1,5 @@
 import { TimeboxEvoRequest } from "../requests";
-import { number2HexString, int2hexlittle } from "../utils";
+import { number2HexString, int2hexlittle } from "../helpers/utils";
 import { ColorInput, TinyColor } from "@ctrl/tinycolor";
 import { TimeboxEvoMessage } from "../messages/message";
 

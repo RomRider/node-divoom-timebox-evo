@@ -1,5 +1,5 @@
 import { TimeboxEvoRequest } from "../requests";
-import { number2HexString } from "../utils";
+import { number2HexString } from "../helpers/utils";
 import { WeatherType, TIMEBOX_CONST } from "../types";
 
 interface TempWeatherOpts {

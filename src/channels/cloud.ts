@@ -6,6 +6,6 @@ export class CloudChannel extends TimeboxEvoRequest {
    */
   constructor() {
     super();
-    this.push("4502")
+    this.push("4502");
   }
 }

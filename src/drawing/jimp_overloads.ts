@@ -1,5 +1,5 @@
 import { TimeboxEvoMessageArray } from "../messages/message_array";
-import { int2hexlittle, number2HexString } from "../utils";
+import { int2hexlittle, number2HexString } from "../helpers/utils";
 import { TimeboxEvoMessage } from "../messages/message";
 import Jimp from 'jimp';
 

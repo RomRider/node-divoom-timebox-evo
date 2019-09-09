@@ -38,8 +38,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
 							<input type="checkbox" id="tsd-filter-only-exported" />
 							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
@@ -53,7 +51,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="index.html">Globals</a>
 				</li>
 			</ul>
 			<h1> node-divoom-timebox-evo</h1>
@@ -63,139 +61,467 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#node-divoom-timebox-evo" id="node-divoom-timebox-evo" style="color: inherit; text-decoration: none;">
-					<h1>node-divoom-timebox-evo</h1>
-				</a>
-				<p>This module helps you generate the appropriate message to use against the divoom timebox evo.</p>
-				<p>The communication part is not implemented here and you can use the <a href="https://github.com/eelcocramer/node-bluetooth-serial-port">bluetooth-serial-port</a> module to communicate with the timebox.</p>
-				<p>Here&#39;s how you could do it:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> TIMEBOX_ADDRESS = <span class="hljs-string">"11:22:33:44:55:66"</span>;
-<span class="hljs-keyword">var</span> btSerial = <span class="hljs-keyword">new</span> (<span class="hljs-built_in">require</span>(<span class="hljs-string">'bluetooth-serial-port'</span>)).BluetoothSerialPort();
-<span class="hljs-keyword">var</span> Divoom = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-divoom-timebox-evo'</span>);
-
-btSerial.findSerialPortChannel(TIMEBOX_ADDRESS, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">channel</span>) </span>{
-  btSerial.connect(address, channel, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'connected'</span>);
-
-    btSerial.on(<span class="hljs-string">'data'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">buffer</span>) </span>{
-      <span class="hljs-built_in">console</span>.log(buffer.toString(<span class="hljs-string">'ascii'</span>));
-    });
-  }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'cannot connect'</span>);
-  });
-}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'found nothing'</span>);
-});
-
-
-<span class="hljs-keyword">var</span> d = <span class="hljs-keyword">new</span> Divoom.DivoomTimeBoxEvoProtocol;
-d.displayAnimation(<span class="hljs-string">'animation.gif'</span>).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
-  result.messages.asBinaryBuffer().forEach(<span class="hljs-function"><span class="hljs-params">elt</span> =&gt;</span> {
-    btSerial.write(elt,
-      <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, bytesWritten</span>) </span>{
-        <span class="hljs-keyword">if</span> (err) <span class="hljs-built_in">console</span>.log(err);
-      }
-    );
-  })
-});
-</code></pre>
-				<a href="#protocol-documentation" id="protocol-documentation" style="color: inherit; text-decoration: none;">
-					<h1>Protocol Documentation</h1>
-				</a>
-				<p>See <a href="PROTOCOL.md">Protocol</a></p>
-				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
-					<h1>Install</h1>
-				</a>
-				<pre><code class="language-sh">npm i node-divoom-timebox-evo</code></pre>
-				<a href="#usage-tbd" id="usage-tbd" style="color: inherit; text-decoration: none;">
-					<h1>Usage (TBD)</h1>
-				</a>
-				<ul>
-					<li><p>javascript</p>
-						<pre><code class="language-js"><span class="hljs-keyword">var</span> Divoom = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-divoom-timebox-evo'</span>);
-
-<span class="hljs-keyword">var</span> d = <span class="hljs-keyword">new</span> Divoom.DivoomTimeBoxEvoProtocol;
-d.displayAnimation(<span class="hljs-string">'file.png'</span>).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(result.messages);
-  <span class="hljs-comment">// send toSend to the Divoom</span>
-  <span class="hljs-comment">// use https://github.com/eelcocramer/node-bluetooth-serial-port</span>
-});</code></pre>
-					</li>
-				</ul>
-				<p>See the complete documentation <a href="https://romrider.github.io/divoom-timebox-evo/docs/">here</a></p>
-			</div>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum"><a href="enums/lightningtype.html" class="tsd-kind-icon">Lightning<wbr>Type</a></li>
+								<li class="tsd-kind-enum"><a href="enums/timedisplaytype.html" class="tsd-kind-icon">Time<wbr>Display<wbr>Type</a></li>
+								<li class="tsd-kind-enum"><a href="enums/vjeffecttype.html" class="tsd-kind-icon">VJEffect<wbr>Type</a></li>
+								<li class="tsd-kind-enum"><a href="enums/weathertype.html" class="tsd-kind-icon">Weather<wbr>Type</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class"><a href="classes/brightnesscommand.html" class="tsd-kind-icon">Brightness<wbr>Command</a></li>
+								<li class="tsd-kind-class"><a href="classes/cloudchannel.html" class="tsd-kind-icon">Cloud<wbr>Channel</a></li>
+								<li class="tsd-kind-class"><a href="classes/customchannel.html" class="tsd-kind-icon">Custom<wbr>Channel</a></li>
+								<li class="tsd-kind-class"><a href="classes/displayanimation.html" class="tsd-kind-icon">Display<wbr>Animation</a></li>
+								<li class="tsd-kind-class"><a href="classes/displaytext.html" class="tsd-kind-icon">Display<wbr>Text</a></li>
+								<li class="tsd-kind-class"><a href="classes/divoomjimp.html" class="tsd-kind-icon">Divoom<wbr>Jimp</a></li>
+								<li class="tsd-kind-class"><a href="classes/divoomjimpanim.html" class="tsd-kind-icon">Divoom<wbr>Jimp<wbr>Anim</a></li>
+								<li class="tsd-kind-class"><a href="classes/divoomjimpstatic.html" class="tsd-kind-icon">Divoom<wbr>Jimp<wbr>Static</a></li>
+								<li class="tsd-kind-class"><a href="classes/jimparray.html" class="tsd-kind-icon">Jimp<wbr>Array</a></li>
+								<li class="tsd-kind-class"><a href="classes/lightningchannel.html" class="tsd-kind-icon">Lightning<wbr>Channel</a></li>
+								<li class="tsd-kind-class"><a href="classes/scoreboardchannel.html" class="tsd-kind-icon">Score<wbr>Board<wbr>Channel</a></li>
+								<li class="tsd-kind-class"><a href="classes/tempweathercommand.html" class="tsd-kind-icon">Temp<wbr>Weather<wbr>Command</a></li>
+								<li class="tsd-kind-class"><a href="classes/timechannel.html" class="tsd-kind-icon">Time<wbr>Channel</a></li>
+								<li class="tsd-kind-class"><a href="classes/timeboxevo.html" class="tsd-kind-icon">Timebox<wbr>Evo</a></li>
+								<li class="tsd-kind-class"><a href="classes/timeboxevomessage.html" class="tsd-kind-icon">Timebox<wbr>Evo<wbr>Message</a></li>
+								<li class="tsd-kind-class"><a href="classes/timeboxevomessagearray.html" class="tsd-kind-icon">Timebox<wbr>Evo<wbr>Message<wbr>Array</a></li>
+								<li class="tsd-kind-class"><a href="classes/timeboxevorequest.html" class="tsd-kind-icon">Timebox<wbr>Evo<wbr>Request</a></li>
+								<li class="tsd-kind-class"><a href="classes/vjeffectchannel.html" class="tsd-kind-icon">VJEffect<wbr>Channel</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/brightnessopts.html" class="tsd-kind-icon">Brightness<wbr>Opts</a></li>
+								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/displaytextopts.html" class="tsd-kind-icon">Display<wbr>Text<wbr>Opts</a></li>
+								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/lightningopts.html" class="tsd-kind-icon">Lightning<wbr>Opts</a></li>
+								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/scoreboardoptions.html" class="tsd-kind-icon">Score<wbr>Board<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/tempweatheropts.html" class="tsd-kind-icon">Temp<wbr>Weather<wbr>Opts</a></li>
+								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/timeoptions.html" class="tsd-kind-icon">Time<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/vjeffectoptions.html" class="tsd-kind-icon">VJEffect<wbr>Options</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias"><a href="index.html#requesttypes" class="tsd-kind-icon">Request<wbr>Types</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function"><a href="index.html#boolean2hexstring" class="tsd-kind-icon">boolean2<wbr>Hex<wbr>String</a></li>
+								<li class="tsd-kind-function"><a href="index.html#brightness2hexstring" class="tsd-kind-icon">brightness2<wbr>Hex<wbr>String</a></li>
+								<li class="tsd-kind-function"><a href="index.html#color2hexstring" class="tsd-kind-icon">color2<wbr>Hex<wbr>String</a></li>
+								<li class="tsd-kind-function"><a href="index.html#int2hexlittle" class="tsd-kind-icon">int2hexlittle</a></li>
+								<li class="tsd-kind-function"><a href="index.html#number2hexstring" class="tsd-kind-icon">number2<wbr>Hex<wbr>String</a></li>
+								<li class="tsd-kind-function"><a href="index.html#unhexlify" class="tsd-kind-icon">unhexlify</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal"><a href="index.html#timebox_const" class="tsd-kind-icon">TIMEBOX_<wbr>CONST</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="requesttypes" class="tsd-anchor"></a>
+					<h3>Request<wbr>Types</h3>
+					<div class="tsd-signature tsd-kind-icon">Request<wbr>Types<span class="tsd-signature-symbol">:</span> <a href="classes/cloudchannel.html" class="tsd-signature-type">CloudChannel</a><span class="tsd-signature-symbol"> | </span><a href="classes/customchannel.html" class="tsd-signature-type">CustomChannel</a><span class="tsd-signature-symbol"> | </span><a href="classes/lightningchannel.html" class="tsd-signature-type">LightningChannel</a><span class="tsd-signature-symbol"> | </span><a href="classes/scoreboardchannel.html" class="tsd-signature-type">ScoreBoardChannel</a><span class="tsd-signature-symbol"> | </span><a href="classes/timechannel.html" class="tsd-signature-type">TimeChannel</a><span class="tsd-signature-symbol"> | </span><a href="classes/vjeffectchannel.html" class="tsd-signature-type">VJEffectChannel</a><span class="tsd-signature-symbol"> | </span><a href="classes/displayanimation.html" class="tsd-signature-type">DisplayAnimation</a><span class="tsd-signature-symbol"> | </span><a href="classes/displaytext.html" class="tsd-signature-type">DisplayText</a><span class="tsd-signature-symbol"> | </span><a href="classes/brightnesscommand.html" class="tsd-signature-type">BrightnessCommand</a><span class="tsd-signature-symbol"> | </span><a href="classes/tempweathercommand.html" class="tsd-signature-type">TempWeatherCommand</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/types.ts#L79">types.ts:79</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="boolean2hexstring" class="tsd-anchor"></a>
+					<h3>boolean2<wbr>Hex<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">boolean2<wbr>Hex<wbr>String<span class="tsd-signature-symbol">(</span>bool<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/helpers/utils.ts#L55">helpers/utils.ts:55</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Convert a boolean to <code>00</code> or <code>01</code></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bool: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a boolean</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>a string representing the boolean</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="brightness2hexstring" class="tsd-anchor"></a>
+					<h3>brightness2<wbr>Hex<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">brightness2<wbr>Hex<wbr>String<span class="tsd-signature-symbol">(</span>brightness<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/helpers/utils.ts#L72">helpers/utils.ts:72</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the brightness to a hex string</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>brightness: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the brightness</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>the hex string</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="color2hexstring" class="tsd-anchor"></a>
+					<h3>color2<wbr>Hex<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">color2<wbr>Hex<wbr>String<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ColorInput</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/helpers/utils.ts#L63">helpers/utils.ts:63</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a color to an hexadecimal string representation</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>color: <span class="tsd-signature-type">ColorInput</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the color to convert</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="int2hexlittle" class="tsd-anchor"></a>
+					<h3>int2hexlittle</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">int2hexlittle<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/helpers/utils.ts#L28">helpers/utils.ts:28</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a number to it&#39;s hexadecimal string representation in least significant byte first</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the value to convert between 0 and 65535</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>the LSB First string reprensenting <code>value</code></p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="number2hexstring" class="tsd-anchor"></a>
+					<h3>number2<wbr>Hex<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">number2<wbr>Hex<wbr>String<span class="tsd-signature-symbol">(</span>int<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/helpers/utils.ts#L42">helpers/utils.ts:42</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts an 8bit number to it&#39;s hexadecimal string representation</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>int: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the number to convert</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>the hexadecimal string reprensetation</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="unhexlify" class="tsd-anchor"></a>
+					<h3>unhexlify</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">unhexlify<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/helpers/utils.ts#L8">helpers/utils.ts:8</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a hexadecimal string to a char-code composed string</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the string to convert from a hex string representation to a charcode representation</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>the char-code string</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal">
+					<a name="timebox_const" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> TIMEBOX_<wbr>CONST</h3>
+					<div class="tsd-signature tsd-kind-icon">TIMEBOX_<wbr>CONST<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/types.ts#L72">types.ts:72</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Exports the constants for the different channels</p>
+						</div>
+					</div>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="timebox_const.lightningtype" class="tsd-anchor"></a>
+						<h3>Lightning<wbr>Type</h3>
+						<div class="tsd-signature tsd-kind-icon">Lightning<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="enums/lightningtype.html" class="tsd-signature-type">LightningType</a><span class="tsd-signature-symbol"> =&nbsp;LightningType</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/types.ts#L74">types.ts:74</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="timebox_const.timetype" class="tsd-anchor"></a>
+						<h3>Time<wbr>Type</h3>
+						<div class="tsd-signature tsd-kind-icon">Time<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="enums/timedisplaytype.html" class="tsd-signature-type">TimeDisplayType</a><span class="tsd-signature-symbol"> =&nbsp;TimeDisplayType</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/types.ts#L73">types.ts:73</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="timebox_const.vjeffecttype" class="tsd-anchor"></a>
+						<h3>VJEffect<wbr>Type</h3>
+						<div class="tsd-signature tsd-kind-icon">VJEffect<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="enums/vjeffecttype.html" class="tsd-signature-type">VJEffectType</a><span class="tsd-signature-symbol"> =&nbsp;VJEffectType</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/types.ts#L76">types.ts:76</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="timebox_const.weathertype" class="tsd-anchor"></a>
+						<h3>Weather<wbr>Type</h3>
+						<div class="tsd-signature tsd-kind-icon">Weather<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="enums/weathertype.html" class="tsd-signature-type">WeatherType</a><span class="tsd-signature-symbol"> =&nbsp;WeatherType</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/types.ts#L75">types.ts:75</a></li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_channels_cloud_.html">"channels/cloud"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_channels_custom_.html">"channels/custom"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_channels_exports_.html">"channels/exports"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_channels_lightning_.html">"channels/lightning"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_channels_scoreboard_.html">"channels/scoreboard"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_channels_time_.html">"channels/time"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_channels_vjeffect_.html">"channels/vjeffect"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_commands_brightness_.html">"commands/brightness"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_commands_exports_.html">"commands/exports"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_commands_temp_weather_.html">"commands/temp_<wbr>weather"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_drawing_drawing_.html">"drawing/drawing"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_drawing_exports_.html">"drawing/exports"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_drawing_jimp_overloads_.html">"drawing/jimp_<wbr>overloads"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_drawing_text_.html">"drawing/text"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_index_.html">"index"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_messages_message_.html">"messages/message"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_messages_message_array_.html">"messages/message_<wbr>array"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_requests_.html">"requests"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_types_.html">"types"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_utils_.html">"utils"</a>
+					<li class="globals current ">
+						<a href="index.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/lightningtype.html" class="tsd-kind-icon">Lightning<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/timedisplaytype.html" class="tsd-kind-icon">Time<wbr>Display<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/vjeffecttype.html" class="tsd-kind-icon">VJEffect<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/weathertype.html" class="tsd-kind-icon">Weather<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/brightnesscommand.html" class="tsd-kind-icon">Brightness<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/cloudchannel.html" class="tsd-kind-icon">Cloud<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/customchannel.html" class="tsd-kind-icon">Custom<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/displayanimation.html" class="tsd-kind-icon">Display<wbr>Animation</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/displaytext.html" class="tsd-kind-icon">Display<wbr>Text</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/divoomjimp.html" class="tsd-kind-icon">Divoom<wbr>Jimp</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/divoomjimpanim.html" class="tsd-kind-icon">Divoom<wbr>Jimp<wbr>Anim</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/divoomjimpstatic.html" class="tsd-kind-icon">Divoom<wbr>Jimp<wbr>Static</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/jimparray.html" class="tsd-kind-icon">Jimp<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/lightningchannel.html" class="tsd-kind-icon">Lightning<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/scoreboardchannel.html" class="tsd-kind-icon">Score<wbr>Board<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/tempweathercommand.html" class="tsd-kind-icon">Temp<wbr>Weather<wbr>Command</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/timechannel.html" class="tsd-kind-icon">Time<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/timeboxevo.html" class="tsd-kind-icon">Timebox<wbr>Evo</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/timeboxevomessage.html" class="tsd-kind-icon">Timebox<wbr>Evo<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/timeboxevomessagearray.html" class="tsd-kind-icon">Timebox<wbr>Evo<wbr>Message<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/timeboxevorequest.html" class="tsd-kind-icon">Timebox<wbr>Evo<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/vjeffectchannel.html" class="tsd-kind-icon">VJEffect<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/brightnessopts.html" class="tsd-kind-icon">Brightness<wbr>Opts</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/displaytextopts.html" class="tsd-kind-icon">Display<wbr>Text<wbr>Opts</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/lightningopts.html" class="tsd-kind-icon">Lightning<wbr>Opts</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/scoreboardoptions.html" class="tsd-kind-icon">Score<wbr>Board<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/tempweatheropts.html" class="tsd-kind-icon">Temp<wbr>Weather<wbr>Opts</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/timeoptions.html" class="tsd-kind-icon">Time<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/vjeffectoptions.html" class="tsd-kind-icon">VJEffect<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="index.html#requesttypes" class="tsd-kind-icon">Request<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#boolean2hexstring" class="tsd-kind-icon">boolean2<wbr>Hex<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#brightness2hexstring" class="tsd-kind-icon">brightness2<wbr>Hex<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#color2hexstring" class="tsd-kind-icon">color2<wbr>Hex<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#int2hexlittle" class="tsd-kind-icon">int2hexlittle</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#number2hexstring" class="tsd-kind-icon">number2<wbr>Hex<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="index.html#unhexlify" class="tsd-kind-icon">unhexlify</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="index.html#timebox_const" class="tsd-kind-icon">TIMEBOX_<wbr>CONST</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

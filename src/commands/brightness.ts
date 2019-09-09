@@ -1,23 +1,42 @@
 import { TimeboxEvoRequest } from "../requests";
-import { number2HexString } from "../utils";
+import { number2HexString } from "../helpers/utils";
 
+/**
+ * Options for the [[BrightnessCommand]]
+ */
 interface BrightnessOpts {
-  brightness?: number,
-  in_min?: number,
-  in_max?: number
+  brightness?: number;
+  in_min?: number;
+  in_max?: number;
 }
 
 export class BrightnessCommand extends TimeboxEvoRequest {
+  /**
+   * Default options
+   */
   private _opts: BrightnessOpts = {
+    /**
+     * default is 100
+     */
     brightness: 100,
+    /**
+     * default is 0
+     */
     in_min: 0,
-    in_max: 100,
-  }
+    /**
+     * default is 100
+     */
+    in_max: 100
+  };
   private _PACKAGE_PREFIX = "74";
 
+  /**
+   * Generates the appropriate message to change the brightness on the Divoom Timebox Evo
+   * @param opts the brightness options
+   */
   constructor(opts?: BrightnessOpts) {
     super();
-    this._opts = { ...this._opts, ...opts }
+    this._opts = { ...this._opts, ...opts };
     this._updateMessage();
   }
 
@@ -53,23 +72,37 @@ export class BrightnessCommand extends TimeboxEvoRequest {
     return this._opts;
   }
 
+  /**
+   * Updates the message queue based on the parameters used
+   */
   private _updateMessage() {
-    function map(x: number, in_min: number, in_max: number, out_min: number, out_max: number) {
+    function map(
+      x: number,
+      in_min: number,
+      in_max: number,
+      out_min: number,
+      out_max: number
+    ) {
       if (x < in_min || x > in_max) {
-        throw new Error('map() in_min is < value or in_max > value')
+        throw new Error("map() in_min is < value or in_max > value");
       }
-      return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+      return ((x - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
     }
-    if ((this._opts.brightness > 100 || this._opts.brightness < 0) && (this._opts.in_min === undefined || this._opts.in_max === undefined)) {
-      throw new Error('Brightness should be between 0 and 100 or in_min and in_max should be defined');
+    if (
+      (this._opts.brightness > 100 || this._opts.brightness < 0) &&
+      (this._opts.in_min === undefined || this._opts.in_max === undefined)
+    ) {
+      throw new Error(
+        "Brightness should be between 0 and 100 or in_min and in_max should be defined"
+      );
     }
     let briInRange = this._opts.brightness;
     if (this._opts.in_min !== undefined && this._opts.in_max !== undefined) {
-      briInRange = Math.ceil(map(this._opts.brightness, this._opts.in_min, this._opts.in_max, 0, 100));
+      briInRange = Math.ceil(
+        map(this._opts.brightness, this._opts.in_min, this._opts.in_max, 0, 100)
+      );
     }
     this.clear();
-    this.push(
-      this._PACKAGE_PREFIX
-      + number2HexString(briInRange))
+    this.push(this._PACKAGE_PREFIX + number2HexString(briInRange));
   }
 }

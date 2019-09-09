@@ -14,7 +14,7 @@
   "scripts": {
     "pre-commit": "npm run test && npm run build && npm run doc && git add .",
     "prepack": "npm run test && npm run build",
-    "doc": "typedoc",
+    "doc": "typedoc && find docs -type f -name '*.html' -exec sed -i '' -e 's/\\/.*\\/node_modules/node_modules/g' {} \\;",
     "build": "rollup -c",
     "watch": "rollup -cw",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register test/*.spec.ts test/**/*.spec.ts",
@@ -54,6 +54,7 @@
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "pre-commit": "^1.2.2",
+    "prettier": "^1.18.2",
     "rollup": "^1.20.3",
     "rollup-plugin-typescript2": "^0.24.0",
     "semver": "^6.3.0",
