@@ -113,7 +113,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="timeboxevorequest.html">TimeboxEvoRequest</a>.<a href="timeboxevorequest.html#messages">messages</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/requests.ts#L30">requests.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/fef63a5/src/requests.ts#L30">requests.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -139,7 +139,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/drawing/drawing.ts#L56">drawing/drawing.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/fef63a5/src/drawing/drawing.ts#L69">drawing/drawing.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -171,7 +171,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/drawing/drawing.ts#L42">drawing/drawing.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/fef63a5/src/drawing/drawing.ts#L54">drawing/drawing.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -204,7 +204,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="timeboxevorequest.html">TimeboxEvoRequest</a>.<a href="timeboxevorequest.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/requests.ts#L22">requests.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/fef63a5/src/requests.ts#L22">requests.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -227,7 +227,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="timeboxevorequest.html">TimeboxEvoRequest</a>.<a href="timeboxevorequest.html#push">push</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/requests.ts#L15">requests.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/fef63a5/src/requests.ts#L15">requests.ts:15</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -259,16 +259,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/5723167/src/drawing/drawing.ts#L10">drawing/drawing.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/RomRider/node-divoom-timebox-evo/blob/fef63a5/src/drawing/drawing.ts#L22">drawing/drawing.ts:22</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Reads an image and returns a promise of <a href="jimparray.html">JimpArray</a>. It works with gif, jpeg, png and bmp</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>input: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Buffer</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a filepath to an image or a buffer reprensenting an image</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="jimparray.html" class="tsd-signature-type">JimpArray</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a promse of <a href="jimparray.html">JimpArray</a></p>
+							<pre><code class="language-typescript">d.read(msg.buffer).then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+  node.send({ payload: result.asBinaryBuffer() });
+}).catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+  <span class="hljs-keyword">throw</span> err
+})</code></pre>
 						</li>
 					</ul>
 				</section>

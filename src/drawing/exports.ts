@@ -1,2 +1,2 @@
 export * from "./drawing";
-export * from "./text"
+export * from "./text";
