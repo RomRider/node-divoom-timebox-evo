@@ -12,7 +12,8 @@ import {
   TempWeatherCommand,
   DisplayText,
   DisplayAnimation,
-  TimeboxEvoRequest
+  TimeboxEvoRequest,
+  DateTimeCommand
 } from '../src';
 
 
@@ -56,6 +57,10 @@ describe('Index', () => {
   it('should return a DisplayAnimation class', () => {
     const d = (new TimeboxEvo).createRequest("animation");
     expect(d instanceof DisplayAnimation).to.be.true;
+  })
+  it('should return a DateTimeCommand class', () => {
+    const d = (new TimeboxEvo).createRequest("datetime");
+    expect(d instanceof DateTimeCommand).to.be.true;
   })
   it('should return a TimeboxEvoRequest class', () => {
     const d = (new TimeboxEvo).createRequest("raw");

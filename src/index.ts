@@ -8,7 +8,7 @@ import {
   CloudChannel,
   CustomChannel
 } from "./channels/exports";
-import { BrightnessCommand, TempWeatherCommand } from "./commands/exports";
+import { BrightnessCommand, TempWeatherCommand, DateTimeCommand } from "./commands/exports";
 import { DisplayText } from "./drawing/text";
 import { DisplayAnimation } from "./drawing/drawing";
 export * from "./channels/exports";
@@ -32,11 +32,12 @@ export class TimeboxEvo {
   createRequest(type: "temp_weather"): TempWeatherCommand;
   createRequest(type: "text"): DisplayText;
   createRequest(type: "picture" | "animation"): DisplayAnimation;
+  createRequest(type: "datetime"): DateTimeCommand;
   createRequest(type: "raw"): TimeboxEvoRequest;
 
   /**
    * Returns an instance of the class required to communicate with the Timebox Evo
-   * @param type type of request. Can be any of: `cloud`, `custom`, `lightning`, `scoreboard`, `time`, `vjeffect`, `brightness`, `temp_weather`, `text`, `picture`, `animation`, `raw`
+   * @param type type of request. Can be any of: `cloud`, `custom`, `lightning`, `scoreboard`, `time`, `vjeffect`, `brightness`, `temp_weather`, `text`, `picture`, `animation`, `datetime`, `raw`
    * @param opts optional parameter for the `type`. See each class' documentation for details
    * @returns the proper class instance
    */
@@ -64,6 +65,8 @@ export class TimeboxEvo {
       case "picture":
       case "animation":
         return new DisplayAnimation();
+      case "datetime":
+        return new DateTimeCommand(opts);
       case "raw":
         return new TimeboxEvoRequest();
       default:
