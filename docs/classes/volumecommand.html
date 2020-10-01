@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>CustomChannel | node-divoom-timebox-evo</title>
+	<title>VolumeCommand | node-divoom-timebox-evo</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="customchannel.html">CustomChannel</a>
+					<a href="volumecommand.html">VolumeCommand</a>
 				</li>
 			</ul>
-			<h1>Class CustomChannel</h1>
+			<h1>Class VolumeCommand</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 						<a href="timeboxevorequest.html" class="tsd-signature-type">TimeboxEvoRequest</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">CustomChannel</span>
+								<span class="target">VolumeCommand</span>
 							</li>
 						</ul>
 					</li>
@@ -84,26 +84,36 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="customchannel.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="volumecommand.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="customchannel.html#_package_header" class="tsd-kind-icon">_PACKAGE_<wbr>HEADER</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="volumecommand.html#_package_prefix" class="tsd-kind-icon">_PACKAGE_<wbr>PREFIX</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="volumecommand.html#_volume_max" class="tsd-kind-icon">_VOLUME_<wbr>MAX</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="volumecommand.html#_volume_min" class="tsd-kind-icon">_VOLUME_<wbr>MIN</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="customchannel.html#messages" class="tsd-kind-icon">messages</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="volumecommand.html#messages" class="tsd-kind-icon">messages</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="volumecommand.html#volume" class="tsd-kind-icon">volume</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="customchannel.html#clear" class="tsd-kind-icon">clear</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="customchannel.html#push" class="tsd-kind-icon">push</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="volumecommand.html#_updatemessage" class="tsd-kind-icon">_update<wbr>Message</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="volumecommand.html#clear" class="tsd-kind-icon">clear</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="volumecommand.html#push" class="tsd-kind-icon">push</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Object literals</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-private"><a href="volumecommand.html#_opts" class="tsd-kind-icon">_opts</a></li>
 							</ul>
 						</section>
 					</div>
@@ -115,21 +125,32 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Custom<wbr>Channel<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="customchannel.html" class="tsd-signature-type">CustomChannel</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Volume<wbr>Command<span class="tsd-signature-symbol">(</span>opts<span class="tsd-signature-symbol">?: </span><a href="../interfaces/volumeopts.html" class="tsd-signature-type">VolumeOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="volumecommand.html" class="tsd-signature-type">VolumeCommand</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/channels/custom.ts#L4">channels/custom.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L21">commands/volume.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Generates the appropriate message to display the Custom Channel</p>
+									<p>Generates the appropriate message to change the volume on the Divoom device.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="customchannel.html" class="tsd-signature-type">CustomChannel</a></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> opts: <a href="../interfaces/volumeopts.html" class="tsd-signature-type">VolumeOpts</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>the volume options</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="volumecommand.html" class="tsd-signature-type">VolumeCommand</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -137,17 +158,37 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_package_header" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _PACKAGE_<wbr>HEADER</h3>
-					<div class="tsd-signature tsd-kind-icon">_PACKAGE_<wbr>HEADER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;4505&quot;</span></div>
+					<a name="_package_prefix" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _PACKAGE_<wbr>PREFIX</h3>
+					<div class="tsd-signature tsd-kind-icon">_PACKAGE_<wbr>PREFIX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"08"</span><span class="tsd-signature-symbol"> =&nbsp;&quot;08&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/channels/custom.ts#L4">channels/custom.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L12">commands/volume.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_volume_max" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _VOLUME_<wbr>MAX</h3>
+					<div class="tsd-signature tsd-kind-icon">_VOLUME_<wbr>MAX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">16</span><span class="tsd-signature-symbol"> =&nbsp;16</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L14">commands/volume.ts:14</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_volume_min" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _VOLUME_<wbr>MIN</h3>
+					<div class="tsd-signature tsd-kind-icon">_VOLUME_<wbr>MIN<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">0</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L13">commands/volume.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="messages" class="tsd-anchor"></a>
@@ -173,9 +214,68 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="volume" class="tsd-anchor"></a>
+					<h3>volume</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> volume<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> volume<span class="tsd-signature-symbol">(</span>volume<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L41">commands/volume.ts:41</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the volume of the device. Must be between 0 and 16.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L36">commands/volume.ts:36</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the volume of the device. Must be between 0 and 16.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>volume: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_updatemessage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _update<wbr>Message</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_update<wbr>Message<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L45">commands/volume.ts:45</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="clear" class="tsd-anchor"></a>
 					<h3>clear</h3>
@@ -233,6 +333,34 @@
 					</ul>
 				</section>
 			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Object literals</h2>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
+					<a name="_opts" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _opts</h3>
+					<div class="tsd-signature tsd-kind-icon">_opts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L16">commands/volume.ts:16</a></li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="_opts.volume-1" class="tsd-anchor"></a>
+						<h3>volume</h3>
+						<div class="tsd-signature tsd-kind-icon">volume<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/Kwintenvdb/node-divoom-timebox-evo/blob/2a086b8/src/commands/volume.ts#L20">commands/volume.ts:20</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Default is 1. Must be between 0 and 16.</p>
+							</div>
+						</div>
+					</section>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
@@ -247,22 +375,37 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="customchannel.html" class="tsd-kind-icon">Custom<wbr>Channel</a>
+						<a href="volumecommand.html" class="tsd-kind-icon">Volume<wbr>Command</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="customchannel.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="volumecommand.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="customchannel.html#_package_header" class="tsd-kind-icon">_PACKAGE_<wbr>HEADER</a>
+								<a href="volumecommand.html#_package_prefix" class="tsd-kind-icon">_PACKAGE_<wbr>PREFIX</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="volumecommand.html#_volume_max" class="tsd-kind-icon">_VOLUME_<wbr>MAX</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="volumecommand.html#_volume_min" class="tsd-kind-icon">_VOLUME_<wbr>MIN</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="customchannel.html#messages" class="tsd-kind-icon">messages</a>
+								<a href="volumecommand.html#messages" class="tsd-kind-icon">messages</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="volumecommand.html#volume" class="tsd-kind-icon">volume</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="volumecommand.html#_updatemessage" class="tsd-kind-icon">_update<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="customchannel.html#clear" class="tsd-kind-icon">clear</a>
+								<a href="volumecommand.html#clear" class="tsd-kind-icon">clear</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="customchannel.html#push" class="tsd-kind-icon">push</a>
+								<a href="volumecommand.html#push" class="tsd-kind-icon">push</a>
+							</li>
+							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
+								<a href="volumecommand.html#_opts" class="tsd-kind-icon">_opts</a>
 							</li>
 						</ul>
 					</li>
