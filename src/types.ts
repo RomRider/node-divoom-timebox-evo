@@ -7,7 +7,7 @@ import {
   CustomChannel
 } from "./channels/exports";
 import { DisplayAnimation, DisplayText } from "./drawing/exports";
-import { BrightnessCommand, TempWeatherCommand } from "./commands/exports";
+import { BrightnessCommand, TempWeatherCommand, VolumeCommand } from "./commands/exports";
 
 /**
  * Type for the TimeChannel
@@ -86,4 +86,5 @@ export type RequestTypes =
   | DisplayAnimation
   | DisplayText
   | BrightnessCommand
-  | TempWeatherCommand;
+  | TempWeatherCommand
+  | VolumeCommand;

@@ -8,7 +8,7 @@ import {
   CloudChannel,
   CustomChannel
 } from "./channels/exports";
-import { BrightnessCommand, TempWeatherCommand, DateTimeCommand } from "./commands/exports";
+import { BrightnessCommand, TempWeatherCommand, DateTimeCommand, VolumeCommand } from "./commands/exports";
 import { DisplayText } from "./drawing/text";
 import { DisplayAnimation } from "./drawing/drawing";
 export * from "./channels/exports";
@@ -29,6 +29,7 @@ export class TimeboxEvo {
   createRequest(type: "time"): TimeChannel;
   createRequest(type: "vjeffect" | "vj-effect"): VJEffectChannel;
   createRequest(type: "brightness"): BrightnessCommand;
+  createRequest(type: "volume"): VolumeCommand;
   createRequest(type: "temp_weather"): TempWeatherCommand;
   createRequest(type: "text"): DisplayText;
   createRequest(type: "picture" | "animation"): DisplayAnimation;
@@ -58,6 +59,8 @@ export class TimeboxEvo {
         return new VJEffectChannel(opts);
       case "brightness":
         return new BrightnessCommand(opts);
+      case "volume":
+        return new VolumeCommand(opts);
       case "temp_weather":
         return new TempWeatherCommand(opts);
       case "text":
