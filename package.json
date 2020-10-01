@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "pre-commit": "npm run test && npm run build && npm run doc && git add .",
-    "prepack": "npm run test && npm run build",
+    "prepare": "npm run test && npm run build",
     "doc": "typedoc && find docs -type f -name '*.html' -exec sed -i '' -e 's/\\/.*\\/node_modules/node_modules/g' {} \\;",
     "build": "rollup -c",
     "watch": "rollup -cw",
