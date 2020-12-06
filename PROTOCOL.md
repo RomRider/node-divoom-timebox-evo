@@ -16,6 +16,7 @@ This is inspired by:
   - [Setting parameters of the Timebox](#setting-parameters-of-the-timebox)
     - [Set Temperature and Weather](#set-temperature-and-weather)
     - [Set Brightness](#set-brightness)
+    - [Select 12 or 24 hour clock](#select-12-or-24-hour-clock)
   - [Commands](#commands)
     - [Requesting Settings](#requesting-settings)
   - [Channels](#channels)
@@ -131,6 +132,15 @@ function getBrightness(brightness, min_bri, max_bri) {
   return Math.ceil(map(brightness, min_bri, max_bri, 0, 100)).toString(16).padStart(2, "0")
 }
 ```
+
+#### Select 12 or 24 hour clock
+
+Full String: `2D XX`
+
+`2D`: Fixed String<br />
+`AA`: Clock type:
+* `00`: 12 hour clock
+* `01`: 24 hour clock
 
 ----
 
